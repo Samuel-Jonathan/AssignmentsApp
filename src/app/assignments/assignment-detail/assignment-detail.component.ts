@@ -46,11 +46,19 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   onDelete() {
+    // if (this.assignementTransmis) {
+    //   this.assignmentsService.deleteAssignment(this.assignementTransmis).subscribe((message) => console.log(message));
+    // }
+    // this.router.navigate(["/home"]);
+    // this.assignementTransmis = null;
     if (this.assignementTransmis) {
-      this.assignmentsService.deleteAssignment(this.assignementTransmis).subscribe((message) => console.log(message));
+      this.assignmentsService.deleteAssignment(this.assignementTransmis)
+        .subscribe((message) => {
+          console.log(message);
+          this.router.navigate(["/home"]);
+
+        })
     }
-    this.router.navigate(["/home"]);
-    this.assignementTransmis = null;
   }
 
   onClickEdit() {
