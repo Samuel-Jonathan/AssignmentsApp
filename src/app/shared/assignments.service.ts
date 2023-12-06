@@ -80,4 +80,8 @@ export class AssignmentsService {
       });
       return forkJoin(appelsVersAddAssignments);
     }
+
+    getAssignmentPagine(page:number, limit:number) : Observable<any>{
+      return this.http.get<any>(this.url + '?page=' + page + '&limit=' + limit);
+    }
 }

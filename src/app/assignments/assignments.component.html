@@ -14,4 +14,8 @@
       </a></nav>
   </mat-list>
   <button (click)="peuplerBD()">Add Assignments in database</button>
+  <button (click)="firstPage()">First Page</button>
+  <button (click)="lastPage()">Last Page</button>
+  <button (click)="nextPageClick()" [disabled]="!isLastPage()" >Suivant</button>
+  <button (click)="prevPageClick()" [disabled]="!isFirstPage()">Retour</button>
 </main>
