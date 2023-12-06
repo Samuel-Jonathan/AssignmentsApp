@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
+import { bdInitialAssignments } from '../shared/data';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,20 @@ export class AssignmentsService {
       // return of("Assignment service: assignment supprimé !");
       let deleteURI = this.url + '/' + assignment._id;
       return this.http.delete(deleteURI);
+    }
+
+    peuplerBDavecForkJoin(){
+      let appelsVersAddAssignments:Observable<any>[] = [];
+
+      bdInitialAssignments.forEach(a=>{
+        let nouvelAssignment = new Assignment();
+        nouvelAssignment.nom = a.nom;
+        nouvelAssignment.id = a.id;
+        nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+        nouvelAssignment.rendu = a.rendu;
+
+        appelsVersAddAssignments.push(this.addAssignment(nouvelAssignment))
+      });
+      return forkJoin(appelsVersAddAssignments);
     }
 }
