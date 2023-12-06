@@ -44,10 +44,11 @@ export class AssignmentsService {
       return this.http.get<Assignment>(this.url + "/" + id);
     }
 
-    addAssignment(assignment: Assignment): Observable<string>{
-      this.assignments.push(assignment);
-      this.loggingService.log(assignment.nom, "ajouté");
-      return of('Assignment ajouté');
+    addAssignment(assignment: Assignment): Observable<any>{
+      // this.assignments.push(assignment);
+      // this.loggingService.log(assignment.nom, "ajouté");
+      // return of('Assignment ajouté');
+      return this.http.post<Assignment>(this.url, assignment);
     }
 
     updateAssignment(assignment:Assignment):Observable<string>{
