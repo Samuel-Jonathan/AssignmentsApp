@@ -28,11 +28,21 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   onAssignmentRendu() {
+    this.assignementTransmis?.rendu != true;
+
     if (this.assignementTransmis) {
+      this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(
+        message => {
+          console.log(message);
+          this.router.navigate(["/home"]);
+        });
+    }
+
+    /*if (this.assignementTransmis) {
       this.assignementTransmis.rendu = true;
       this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => console.log(message));
     }
-    this.router.navigate(["/home"]);
+    this.router.navigate(["/home"]);*/
   }
 
   onDelete() {
@@ -51,7 +61,7 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   isAdmin() {
-    if(this.authService.userRole==='admin'){
+    if (this.authService.userRole === 'admin') {
       return true;
     }
     return false;

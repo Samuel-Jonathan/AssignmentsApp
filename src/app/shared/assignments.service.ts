@@ -51,8 +51,9 @@ export class AssignmentsService {
       return this.http.post<Assignment>(this.url, assignment);
     }
 
-    updateAssignment(assignment:Assignment):Observable<string>{
-      return of("Assignment service: assignments modifié !");
+    updateAssignment(assignment:Assignment):Observable<any>{
+      // return of("Assignment service: assignments modifié !");
+      return this.http.put<Assignment>(this.url, assignment);
     }
 
     deleteAssignment(assignment:Assignment):Observable<string>{
