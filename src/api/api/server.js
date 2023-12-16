@@ -56,7 +56,7 @@ app.route(prefix + '/assignments')
   .put(assignment.updateAssignment);
 
   // Configurer l'authentification
-const User = require('./model/User');
+const User = require('./model/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -66,7 +66,8 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       username: req.body.username,
-      password: hashedPassword
+      password: hashedPassword,
+      role: req.body.role
     });
     await user.save();
     res.status(201).send('User registered successfully');
@@ -83,13 +84,16 @@ app.post('/api/login', async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(401).send('Invalid password');
 
+  const role = await User.findOne({ role: req.body.role });
+  if (!role) return res.status(404).send('Role not found');
+
   const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
-  res.status(200).json({ token });
+  res.status(200).json({ token, user });
 });
 
-// Exemple d'utilisation du token dans une route sécurisée
+
 app.get('/api/secure-route', authenticateToken, (req, res) => {
-  // ... code de la route sécurisée
+
 });
 
 function authenticateToken(req, res, next) {
