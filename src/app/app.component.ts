@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from './shared/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +10,6 @@ import { Router } from '@angular/router';
   title = 'Application de gestion des devoirs à rendre (Assignments)';
   opened = false;
 
-  constructor (){}
+  constructor(public authService: AuthService) {}
+  
 }

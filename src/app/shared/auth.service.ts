@@ -16,6 +16,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password, role });
   }
 
+  logout(){
+    this.userRole = null;
+  }
 
   isAdmin(){
     const isUserAdmin = new Promise(

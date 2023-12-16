@@ -6,7 +6,8 @@
     <button mat-button (click)="opened=!opened" style="background-color: white;"><mat-icon>menu</mat-icon></button>
     <span class="login"></span>
     <a routerLink="/home"><button mat-button style="background-color: white; margin-right: 10px"><mat-icon>home</mat-icon></button></a>
-    <a routerLink="/login"><button mat-button style="background-color: white;"><mat-icon>account_circle</mat-icon></button></a>
+    <a routerLink="/login"><button mat-button style="background-color: white;" *ngIf="!authService.userRole"><mat-icon>account_circle</mat-icon></button></a>
+    <a routerLink="/login"><button mat-button style="background-color: white;" *ngIf="authService.userRole"><mat-icon>reply</mat-icon></button></a>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container>
