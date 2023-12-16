@@ -8,8 +8,7 @@ import { User } from '../login/user';
 })
 export class AuthService {
   
-  user!: User;
-  userRole: string | null = null;
+  user!: User ;
 
   private apiUrl = 'http://localhost:8010/api';  
 
@@ -25,13 +24,15 @@ export class AuthService {
   }
 
   logout(){
-    this.userRole = null;    
+    this.user.username = ""; 
+    this.user.password = "";
+    this.user.role = ""; 
   }
 
   isAdmin(){
     const isUserAdmin = new Promise(
       (resolve) =>{
-        resolve(this.userRole)
+        resolve(this.user)
       }
     );
     return isUserAdmin;

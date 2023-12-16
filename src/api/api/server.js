@@ -56,7 +56,7 @@ app.route(prefix + '/assignments')
   .put(assignment.updateAssignment);
 
   // Configurer l'authentification
-const User = require('./model/user');
+const User = require('./model/User')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
