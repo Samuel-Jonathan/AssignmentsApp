@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -6,23 +8,21 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   userRole: string | null = null;
 
-  constructor() { }
-  
-  private users = [
-    { username: 'user', password: 'userpass', role: 'user' },
-    { username: 'admin', password: 'adminpass', role: 'admin' }
-  ];
+  private apiUrl = 'http://localhost:8010/api';  
 
+  constructor(private http: HttpClient) { }
 
-  logIn(username: string, password: string) {
-   const user = this.users.find(u => u.username === username && u.password === password);
-   return user ? user.role : null;
+  login(username: string, password: string, role: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { username, password, role });
   }
 
+  logout(){
+    this.userRole = null;    
+  }
 
   isAdmin(){
     const isUserAdmin = new Promise(
-      (resolve, reject) =>{
+      (resolve) =>{
         resolve(this.userRole)
       }
     );
