@@ -84,8 +84,9 @@ app.post('/api/login', async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(401).send('Invalid password');
 
-  const role = await User.findOne({ role: req.body.role });
-  if (!role) return res.status(404).send('Role not found');
+  if (user.role !== req.body.role) {
+    return res.status(403).send('Unauthorized role');
+  }
 
   const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
   res.status(200).json({ token, user });
