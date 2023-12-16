@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   logout(){
-    this.userRole = null;
+    this.userRole = null;    
   }
 
   isAdmin(){

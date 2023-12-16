@@ -12,4 +12,7 @@ import { AuthService } from './shared/auth.service';
 
   constructor(public authService: AuthService) {}
   
+  logout(){
+    this.authService.logout();
+  }
 }

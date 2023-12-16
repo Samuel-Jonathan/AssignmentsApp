@@ -37,20 +37,9 @@ export class AssignmentDetailComponent implements OnInit {
           this.router.navigate(["/home"]);
         });
     }
-
-    /*if (this.assignementTransmis) {
-      this.assignementTransmis.rendu = true;
-      this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => console.log(message));
-    }
-    this.router.navigate(["/home"]);*/
   }
 
   onDelete() {
-    // if (this.assignementTransmis) {
-    //   this.assignmentsService.deleteAssignment(this.assignementTransmis).subscribe((message) => console.log(message));
-    // }
-    // this.router.navigate(["/home"]);
-    // this.assignementTransmis = null;
     if (this.assignementTransmis) {
       this.assignmentsService.deleteAssignment(this.assignementTransmis)
         .subscribe((message) => {

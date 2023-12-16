@@ -18,10 +18,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let user = this.authService.login(this.username, this.password, "user"); 
+    let user = this.authService.login(this.username, this.password, "admin"); 
     user.subscribe(response=>{
       if(response.token){
-        let role = response.user.role;
+        let role = response.user.role;        
         if(role === 'admin'){
           this.router.navigate(['/home']);
           this.authService.userRole = 'admin';
