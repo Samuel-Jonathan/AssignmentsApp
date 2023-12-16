@@ -13,7 +13,9 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8010/api';  
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.user = new User();
+  }
 
   login(username: string, password: string, role: string): Observable<any> {
     this.user.username = username;
