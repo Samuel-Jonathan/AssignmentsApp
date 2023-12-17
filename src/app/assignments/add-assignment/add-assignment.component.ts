@@ -10,18 +10,26 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
 export class AddAssignmentComponent implements OnInit {
   nomDevoir!: string;
   dateRendu!: Date;
-  constructor(private assignmentsService:AssignmentsService) { }
+  constructor(private assignmentsService: AssignmentsService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
     const newAssignment = new Assignment();
-    newAssignment.id = this.assignmentsService.assignments.length;
-    newAssignment.nom = this.nomDevoir;
-    newAssignment.dateDeRendu = this.dateRendu;
+    let assignments: Assignment[] = [];
 
-    this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
-  }
+    this.assignmentsService.getAssignments()
+      .subscribe((assignmentsTab: Assignment[]) => {
+        assignments = assignmentsTab;
 
+        const newAssignmentId = assignments.length > 0 ? assignments[assignments.length - 1].id + 1 : 1;
+
+        newAssignment.id = newAssignmentId;
+        newAssignment.nom = this.nomDevoir;
+        newAssignment.dateDeRendu = this.dateRendu;
+
+        this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
+      });
+  };
 }
