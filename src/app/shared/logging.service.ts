@@ -7,7 +7,7 @@ export class LoggingService {
 
   constructor() { }
 
-  log(assignmentName: any, action: any){
+  log(assignmentName: any, action: any) {
     console.log("Assignment " + assignmentName + " " + action);
   }
 }

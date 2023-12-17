@@ -8,12 +8,12 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
-  
-  user!: User ;
 
-  private apiUrl = 'http://localhost:8010/api';  
+  user!: User;
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { 
+  private apiUrl = 'http://localhost:8010/api';
+
+  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {
     this.user = new User();
   }
 
@@ -24,7 +24,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password, role });
   }
 
-  logout(){
+  logout() {
     this.user.username = "";
     this.user.password = "";
     this.user.role = "";
@@ -36,9 +36,9 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token || '');
   }
 
-  isAdmin(){
+  isAdmin() {
     const isUserAdmin = new Promise(
-      (resolve) =>{
+      (resolve) => {
         resolve(this.user)
       }
     );

@@ -19,7 +19,7 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   getAssignments() {
-      if (!this.authService.isAuthenticated()) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/home']);
     } else {
       const id = +this.route.snapshot.params['id'];
@@ -61,7 +61,6 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   isAdmin() {
-
     if (this.authService.user && this.authService.user.role === 'admin') {
       return true;
     }

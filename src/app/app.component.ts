@@ -6,13 +6,13 @@ import { AuthService } from './shared/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-  export class AppComponent {
+export class AppComponent {
   title = 'Application de gestion des devoirs à rendre (Assignments)';
   opened = false;
 
-  constructor(public authService: AuthService) {}
-  
-  logout(){
+  constructor(public authService: AuthService) { }
+
+  logout() {
     this.authService.logout();
   }
 }

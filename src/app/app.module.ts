@@ -24,18 +24,18 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
 import { RouterModule, Routes } from '@angular/router';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { authGuard } from './shared/auth.guard';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
-const routes : Routes = [
-  {path:'', component:AssignmentsComponent},
-  {path:'home', component:AssignmentsComponent},
-  {path:'add', component:AddAssignmentComponent},
-  {path: 'assignment/:id', component:AssignmentDetailComponent},
-  {path:'assignment/:id/edit', component:EditAssignmentComponent, canActivate: [authGuard]},
-  {path: 'login', component:LoginComponent}
+const routes: Routes = [
+  { path: '', component: AssignmentsComponent },
+  { path: 'home', component: AssignmentsComponent },
+  { path: 'add', component: AddAssignmentComponent },
+  { path: 'assignment/:id', component: AssignmentDetailComponent },
+  { path: 'assignment/:id/edit', component: EditAssignmentComponent, canActivate: [authGuard] },
+  { path: 'login', component: LoginComponent }
 ];
 
 export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
@@ -80,7 +80,7 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     MatCheckboxModule,
     RouterModule.forRoot(routes),
     MatSlideToggleModule,
-    HttpClientModule  
+    HttpClientModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },

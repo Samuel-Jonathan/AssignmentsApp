@@ -12,23 +12,17 @@ export class LoginComponent implements OnInit {
   username!: string;
   password!: string;
 
-  constructor(private authService:AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    let user = this.authService.login(this.username, this.password, "user"); 
-    user.subscribe(response=>{
-      if(response.token){
-        let role = response.user.role;   
-        localStorage.setItem('access_token', response.token);  
-        
-        if(role === 'admin'){
-          this.router.navigate(['/home']);
-        }else{
-          this.router.navigate(['/home']);
-        }
+    let user = this.authService.login(this.username, this.password, "user");
+    user.subscribe(response => {
+      if (response.token) {
+        localStorage.setItem('access_token', response.token);
+        this.router.navigate(['/home']);
       }
     })
   }

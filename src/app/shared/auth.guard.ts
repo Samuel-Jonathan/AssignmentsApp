@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 export const authGuard: CanActivateFn = (route, state) => {
   let authService = inject(AuthService);
   let router = inject(Router);
- 
+
   return authService.isAdmin()
     .then(authentifie => {
       if (authentifie) {

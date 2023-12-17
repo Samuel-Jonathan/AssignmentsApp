@@ -1,4 +1,4 @@
-export {bdInitialAssignments}
+export { bdInitialAssignments }
 
 const bdInitialAssignments = [
     { "id": 1, "nom": "Veribet", "dateDeRendu": new Date(), "rendu": false },
