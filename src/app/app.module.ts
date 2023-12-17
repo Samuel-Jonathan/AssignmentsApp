@@ -27,6 +27,7 @@ import { authGuard } from './shared/auth.guard';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 const routes : Routes = [
   {path:'', component:AssignmentsComponent},
@@ -37,6 +38,16 @@ const routes : Routes = [
   {path: 'login', component:LoginComponent}
 ];
 
+export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
+  return {
+    tokenGetter: () => {
+      return localStorage.getItem('access_token');
+    },
+    // Additional options if needed
+  };
+}
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +56,13 @@ const routes : Routes = [
     NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent, EditAssignmentComponent, LoginComponent
   ],
   imports: [
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [JwtHelperService],
+      },
+    }),
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -62,9 +80,12 @@ const routes : Routes = [
     MatCheckboxModule,
     RouterModule.forRoot(routes),
     MatSlideToggleModule,
-    HttpClientModule
+    HttpClientModule  
   ],
-  providers: [],
+  providers: [
+    { provide: JWT_OPTIONS, useValue: {} },
+    JwtHelperService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

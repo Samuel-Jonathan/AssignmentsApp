@@ -19,12 +19,16 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   getAssignments() {
-    const id = +this.route.snapshot.params['id'];
-    this.assignmentsService.getAssignment(id).subscribe(assignment => {
-      if (assignment) {
-        this.assignementTransmis = assignment;
-      }
-    });
+      if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    } else {
+      const id = +this.route.snapshot.params['id'];
+      this.assignmentsService.getAssignment(id).subscribe(assignment => {
+        if (assignment) {
+          this.assignementTransmis = assignment;
+        }
+      });
+    }
   }
 
   onAssignmentRendu() {

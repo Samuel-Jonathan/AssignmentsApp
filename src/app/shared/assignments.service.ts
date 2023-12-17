@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, forkJoin, of } from 'rxjs';
-import { LoggingService } from './logging.service';
-import { HttpClient } from '@angular/common/http';
+import { Observable, forkJoin } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { bdInitialAssignments } from '../shared/data';
 
 @Injectable({
@@ -10,60 +9,43 @@ import { bdInitialAssignments } from '../shared/data';
 })
 export class AssignmentsService {
 
-  constructor(private loggingService:LoggingService, private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
 
-  assignments: Assignment[] = [
-    {
-      id: 1,
-      nom: "Vive les maths",
-      dateDeRendu: new Date('2021-03-01'),
-      rendu: true
-    },
-    {
-      id: 2,
-      nom: "Vive la physique",
-      dateDeRendu: new Date('2023-03-05'),
-      rendu: false
-    },
-    {
-      id: 3,
-      nom: "Angular c'est encore mieux",
-      dateDeRendu: new Date('2021-03-10'),
-      rendu: false
-    }];
-
-      url="http://localhost:8010/api/assignments";
+    url="http://localhost:8010/api/assignments";
 
     getAssignments():Observable<Assignment[]>{
       return this.http.get<Assignment[]>(this.url);
     }
 
-    getAssignment(id:number):Observable<Assignment|undefined>{
-      console.log(this.url + "/" + id);
-  
-      
-      return this.http.get<Assignment>(this.url + "/" + id);
+    getToken(){
+      return localStorage.getItem('access_token');
+    }
+
+    getHttpOptions(){
+      return {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.getToken()}`  
+        }),
+        withCredentials: true
+      };
+    }
+
+    getAssignment(id: number): Observable<Assignment | undefined> {
+      return this.http.get<Assignment>(this.url + "/" + id, this.getHttpOptions());
     }
 
     addAssignment(assignment: Assignment): Observable<any>{
-      // this.assignments.push(assignment);
-      // this.loggingService.log(assignment.nom, "ajouté");
-      // return of('Assignment ajouté');
-      return this.http.post<Assignment>(this.url, assignment);
+      return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
     }
 
     updateAssignment(assignment:Assignment):Observable<any>{
-      // return of("Assignment service: assignments modifié !");
-      return this.http.put<Assignment>(this.url, assignment);
+      return this.http.put<Assignment>(this.url, assignment, this.getHttpOptions());
     }
 
     deleteAssignment(assignment:Assignment):Observable<any>{
-      // let pos = this.assignments.indexOf(assignment);
-      // this.assignments.splice(pos, 1);
-
-      // return of("Assignment service: assignment supprimé !");
       let deleteURI = this.url + '/' + assignment._id;
-      return this.http.delete(deleteURI);
+      return this.http.delete(deleteURI, this.getHttpOptions());
     }
 
     peuplerBDavecForkJoin(){
@@ -82,6 +64,14 @@ export class AssignmentsService {
     }
 
     getAssignmentPagine(page:number, limit:number) : Observable<any>{
-      return this.http.get<any>(this.url + '?page=' + page + '&limit=' + limit);
+      const token = localStorage.getItem('access_token');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`  // Utilisez les backticks pour inclure la variable dans la chaîne
+        }),
+        withCredentials: true
+      };
+      return this.http.get<any>(this.url + '?page=' + page + '&limit=' + limit, httpOptions);
     }
 }
