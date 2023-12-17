@@ -21,8 +21,14 @@ export class AuthService {
     this.user.username = username;
     this.user.password = password;
     this.user.role = role;
-    localStorage.removeItem('access_token');
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password, role });
+  }
+
+  logout(){
+    this.user.username = "";
+    this.user.password = "";
+    this.user.role = "";
+    localStorage.removeItem('access_token');
   }
 
   isAuthenticated(): boolean {
