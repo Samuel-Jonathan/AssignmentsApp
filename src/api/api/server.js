@@ -2,6 +2,7 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
+let user = require('./routes/users');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -58,20 +59,8 @@ let port = process.env.PORT || 8010;
 // les routes
 const prefix = '/api';
 
-/*app.route(prefix + '/assignments')
-  .get(assignment.getAssignments);
-
-app.route(prefix + '/assignments/:id')
-  .get(assignment.getAssignment)
-  .delete(assignment.deleteAssignment);
-
-
-app.route(prefix + '/assignments')
-  .post(assignment.postAssignment)
-  .put(assignment.updateAssignment);*/
-
 // Configurer l'authentification
-const User = require('./model/User')
+const User = require('./model/user')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -100,23 +89,12 @@ app.post('/api/login', async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(401).send('Invalid password');
 
-  if (user.role !== req.body.role) {
-    return res.status(403).send('Unauthorized role');
-  }
-
   const token = jwt.sign({ userId: user._id }, 'test', { expiresIn: '1h' });
   res.status(200).json({ token, user });
 });
 
-
-app.get('/api/secure-route', authenticateToken, (req, res) => {
-
-});
-
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization'];
-  console.log('Received Token:', token);
-
   if (!token) {
     return res.status(401).send('Token not provided');
   }
@@ -126,20 +104,16 @@ function authenticateToken(req, res, next) {
       console.error('Error during token verification:', err);
       return res.status(403).send('Invalid token');
     }
-
-    console.log('Decoded Token:', decodedToken);
     req.user = decodedToken;
     next();
   });
 }
 
-
-
-// Middleware d'authentification pour les routes sécurisées
-app.use('/api/secure-route', authenticateToken);
-
 app.route(prefix + '/assignments')
   .get(assignment.getAssignments);
+
+app.route(prefix + '/assignments/:id')
+  .get(assignment.getAssignment);
 
 // Routes pour /api/assignments avec authentification
 app.route(prefix + '/assignments')
@@ -148,8 +122,11 @@ app.route(prefix + '/assignments')
 
 // Routes pour /api/assignments/:id avec authentification
 app.route(prefix + '/assignments/:id')
-  .get(authenticateToken, assignment.getAssignment)
   .delete(authenticateToken, assignment.deleteAssignment);
+
+app.route(prefix + '/users/:username')
+  .get(user.getUser);
+
 
 
 // On démarre le serveur

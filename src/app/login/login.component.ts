@@ -18,12 +18,24 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let user = this.authService.login(this.username, this.password, "user");
-    user.subscribe(response => {
-      if (response.token) {
-        localStorage.setItem('access_token', response.token);
-        this.router.navigate(['/home']);
-      }
-    })
+    // Obtenez le rôle de l'utilisateur
+    this.authService.getUser(this.username).subscribe(
+      (response) => {
+        const role = response.role;
+        console.log(role);
+        
+        // Utilisez le rôle pour effectuer la connexion
+        const user = this.authService.login(this.username, this.password, role);
+        user.subscribe(
+          (loginResponse) => {
+            if (loginResponse.token) {
+              localStorage.setItem('access_token', loginResponse.token);
+              this.router.navigate(['/home']);
+            }
+          },
+        );
+      },
+    );
   }
+  
 }

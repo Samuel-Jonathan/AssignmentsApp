@@ -17,11 +17,12 @@ export class AuthService {
     this.user = new User();
   }
 
-  login(username: string, password: string, role: string): Observable<any> {
+  login(username: string, password: string, role: string | undefined): Observable<any> {
     this.user.username = username;
     this.user.password = password;
     this.user.role = role;
-    return this.http.post<any>(`${this.apiUrl}/login`, { username, password, role });
+
+    return this.http.post<any>(`${this.apiUrl}/login`, { username, password });
   }
 
   logout() {
@@ -29,6 +30,11 @@ export class AuthService {
     this.user.password = "";
     this.user.role = "";
     localStorage.removeItem('access_token');
+  }
+  url = "http://localhost:8010/api/users";
+
+  getUser(username: string): Observable<User> {
+    return this.http.get<User>(this.url + "/" + username);
   }
 
   isAuthenticated(): boolean {

@@ -34,7 +34,6 @@ export class AssignmentsComponent implements OnInit {
   }
 
   getAssignments() {
-    // this.assignmentService.getAssignments().subscribe(assignments => this.assignments = assignments);
     this.assignmentService.getAssignmentPagine(this.page, this.limit)
       .subscribe(
         data => {

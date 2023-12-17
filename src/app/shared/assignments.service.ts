@@ -3,13 +3,14 @@ import { Assignment } from '../assignments/assignment.model';
 import { Observable, forkJoin } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { bdInitialAssignments } from '../shared/data';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   url = "http://localhost:8010/api/assignments";
 
@@ -31,19 +32,28 @@ export class AssignmentsService {
     };
   }
 
-  getAssignment(id: number): Observable<Assignment | undefined> {
-    return this.http.get<Assignment>(this.url + "/" + id, this.getHttpOptions());
+  getAssignment(id:number):Observable<Assignment|undefined>{
+    return this.http.get<Assignment>(this.url + "/" + id);
   }
 
   addAssignment(assignment: Assignment): Observable<any> {
+    if (!this.authService.isAuthenticated()) {
+      return new Observable<Assignment | undefined>();
+    }
     return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
   }
 
   updateAssignment(assignment: Assignment): Observable<any> {
+    if (!this.authService.isAuthenticated()) {
+      return new Observable<Assignment | undefined>();
+    }
     return this.http.put<Assignment>(this.url, assignment, this.getHttpOptions());
   }
 
   deleteAssignment(assignment: Assignment): Observable<any> {
+    if (!this.authService.isAuthenticated()) {
+      return new Observable<Assignment | undefined>();
+    }
     let deleteURI = this.url + '/' + assignment._id;
     return this.http.delete(deleteURI, this.getHttpOptions());
   }
