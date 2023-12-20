@@ -55,7 +55,7 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   isAdmin() {
-    if (this.authService.user && this.authService.user.role === 'admin') {
+    if (this.authService.isAdmin()) {
       return true;
     }
     return false;
