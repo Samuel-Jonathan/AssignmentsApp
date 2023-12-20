@@ -19,7 +19,7 @@ export class AssignmentsService {
   }
 
   getToken() {
-    return localStorage.getItem('access_token');
+    return sessionStorage.getItem('access_token');
   }
 
   getHttpOptions() {

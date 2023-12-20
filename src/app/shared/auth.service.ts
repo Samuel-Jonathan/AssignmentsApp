@@ -21,7 +21,6 @@ export class AuthService {
     this.user.username = username;
     this.user.password = password;
     this.user.role = role;
-
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password });
   }
 
@@ -29,7 +28,7 @@ export class AuthService {
     this.user.username = "";
     this.user.password = "";
     this.user.role = "";
-    localStorage.removeItem('access_token');
+    sessionStorage.removeItem('access_token');
   }
   url = "http://localhost:8010/api/users";
 

@@ -41,7 +41,7 @@ const routes: Routes = [
 export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
   return {
     tokenGetter: () => {
-      return localStorage.getItem('access_token');
+      return sessionStorage.getItem('access_token');
     },
     // Additional options if needed
   };
