@@ -18,13 +18,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // Obtenez le rôle de l'utilisateur
     this.authService.getUser(this.username).subscribe(
       (response) => {
         const role = response.role;
-        console.log(role);
-        
-        // Utilisez le rôle pour effectuer la connexion
         const user = this.authService.login(this.username, this.password, role);
         user.subscribe(
           (loginResponse) => {

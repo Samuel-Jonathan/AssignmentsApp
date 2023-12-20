@@ -101,7 +101,6 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token.split(' ')[1], 'test', (err, decodedToken) => {
     if (err) {
-      console.error('Error during token verification:', err);
       return res.status(403).send('Invalid token');
     }
     req.user = decodedToken;
