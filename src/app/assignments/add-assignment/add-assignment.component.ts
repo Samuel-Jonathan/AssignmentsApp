@@ -24,7 +24,7 @@ export class AddAssignmentComponent implements OnInit {
         assignments = assignmentsTab;
 
         const newAssignmentId = assignments.length > 0 ? assignments[assignments.length - 1].id + 1 : 1;
-
+        
         newAssignment.id = newAssignmentId;
         newAssignment.nom = this.nomDevoir;
         newAssignment.dateDeRendu = this.dateRendu;
