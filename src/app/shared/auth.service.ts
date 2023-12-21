@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../login/user';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class AuthService {
     sessionStorage.removeItem('access_token');
   }
 
-  getUser(username: string): Observable<any> {
-    return this.http.get<any>(this.apiUrl + "/users/" + username);
+  getUser(username: string): Observable<User> {
+    return this.http.get<User>(this.apiUrl + "/users/" + username);
   }
 
   isAuthenticated(): boolean {
