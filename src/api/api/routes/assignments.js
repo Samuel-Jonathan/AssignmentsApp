@@ -37,22 +37,15 @@ function postAssignment(req, res) {
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
 
-    Assignment.findOne().sort({ id: -1 }).limit(1).exec((err, lastAssignment) => {
+    console.log("POST assignment reçu :");
+    console.log(assignment)
+
+    assignment.save((err) => {
         if (err) {
-            res.send(err);
-            return;
+            res.send('cant post assignment ', err);
         }
-
-        assignment.id = (lastAssignment ? lastAssignment.id : 0) + 1;
-
-        assignment.save((err) => {
-            if (err) {
-                res.send('cant post assignment ', err);
-                return;
-            }
-            res.json({ message: `${assignment.nom} saved!` });
-        });
-    });
+        res.json({ message: `${assignment.nom} saved!` })
+    })
 }
 
 // Update d'un assignment (PUT)

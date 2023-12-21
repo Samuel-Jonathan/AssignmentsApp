@@ -111,9 +111,6 @@ function authenticateToken(req, res, next) {
 app.route(prefix + '/assignments')
   .get(assignment.getAssignments);
 
-app.route(prefix + '/assignments/:id')
-  .get(assignment.getAssignment);
-
 // Routes pour /api/assignments avec authentification
 app.route(prefix + '/assignments')
   .post(authenticateToken, assignment.postAssignment)
@@ -121,7 +118,8 @@ app.route(prefix + '/assignments')
 
 // Routes pour /api/assignments/:id avec authentification
 app.route(prefix + '/assignments/:id')
-  .delete(authenticateToken, assignment.deleteAssignment);
+  .get(authenticateToken, assignment.getAssignment)
+  .delete (authenticateToken, assignment.deleteAssignment);
 
 app.route(prefix + '/users/:username')
   .get(user.getUser);
