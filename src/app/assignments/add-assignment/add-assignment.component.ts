@@ -23,7 +23,7 @@ export class AddAssignmentComponent implements OnInit {
       .subscribe((assignmentsTab: Assignment[]) => {
         assignments = assignmentsTab;
 
-        const newAssignmentId = assignments.length > 0 ? assignments[assignments.length - 1].id + 1 : 1;
+        const newAssignmentId = Math.floor(Math.random()*1000);
         
         newAssignment.id = newAssignmentId;
         newAssignment.nom = this.nomDevoir;

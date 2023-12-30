@@ -84,8 +84,7 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentService.peuplerBDavecForkJoin()
       .subscribe(() => {
         console.log("LA BD A ETE PEUPLEE, TOUS LES ASSIGNMENTS AJOUTES");
+        window.location.reload();
       })
-
-    window.location.reload();
   }
 }

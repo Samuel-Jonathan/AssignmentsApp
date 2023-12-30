@@ -40,6 +40,7 @@ export class AssignmentsService {
     if (!this.authService.isAuthenticated()) {
       return new Observable<Assignment | undefined>();
     }
+    
     return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
   }
 
