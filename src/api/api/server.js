@@ -108,18 +108,17 @@ function authenticateToken(req, res, next) {
   });
 }
 
-app.route(prefix + '/assignments')
-  .get(assignment.getAssignments);
 
 // Routes pour /api/assignments avec authentification
 app.route(prefix + '/assignments')
+  .get(assignment.getAssignments)
   .post(authenticateToken, assignment.postAssignment)
   .put(authenticateToken, assignment.updateAssignment);
 
 // Routes pour /api/assignments/:id avec authentification
 app.route(prefix + '/assignments/:id')
-  .get(authenticateToken, assignment.getAssignment)
-  .delete (authenticateToken, assignment.deleteAssignment);
+  .get(assignment.getAssignment)
+  .delete(authenticateToken, assignment.deleteAssignment);
 
 app.route(prefix + '/users/:username')
   .get(user.getUser);
