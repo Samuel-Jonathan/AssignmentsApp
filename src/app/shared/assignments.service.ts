@@ -68,7 +68,8 @@ export class AssignmentsService {
       nouvelAssignment.id = a.id;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
-
+      nouvelAssignment.studentId = a.studentId;
+      
       appelsVersAddAssignments.push(this.addAssignment(nouvelAssignment))
     });
     return forkJoin(appelsVersAddAssignments);

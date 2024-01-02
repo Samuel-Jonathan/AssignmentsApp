@@ -1,15 +1,37 @@
 let Assignment = require('../model/assignment');
 
-// Récupérer tous les assignments (GET)
 function getAssignments(req, res) {
-    var aggregateQuery = Assignment.aggregate();
-    Assignment.aggregatePaginate(
-        aggregateQuery,
-        {
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-        },
+    const options = {
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10,
+    };
 
+    Assignment.aggregatePaginate(
+        [
+            {
+                $lookup: {
+                    from: 'students', 
+                    localField: 'student', 
+                    foreignField: 'studentId',
+                    as: 'student' 
+                }
+            },
+            {
+                $unwind: '$student' 
+            },
+            {
+                $project: {
+                    _id: 1,
+                    studentName: { $concat: ['$student.first_name', ' ', '$student.last_name'] },
+                    dateDeRendu: 1,
+                    nom: 1,
+                    rendu: 1,
+                    subject: 1,
+                    studentId: 1
+                }
+            }
+        ],
+        options,
         (err, assignments) => {
             if (err) {
                 res.send(err)
@@ -18,6 +40,8 @@ function getAssignments(req, res) {
         }
     );
 }
+
+  
 
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res) {
@@ -35,7 +59,7 @@ function postAssignment(req, res) {
     assignment.nom = req.body.nom;
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
-
+    assignment.studentId = req.body.studentId;
     console.log("POST assignment reçu :");
     console.log(assignment)
 
