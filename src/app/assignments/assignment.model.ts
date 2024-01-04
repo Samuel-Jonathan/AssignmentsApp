@@ -5,4 +5,5 @@ export class Assignment {
     dateDeRendu !: Date;
     rendu?: boolean;
     studentId!: Number;
+    studentName?: string;
 }

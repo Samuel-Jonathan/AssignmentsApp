@@ -1,25 +1,24 @@
 let Assignment = require('../model/assignment');
 
-
 function getAssignments(req, res) {
     const options = {
         page: parseInt(req.query.page, 10) || 1,
         limit: parseInt(req.query.limit, 10) || 10,
     };
 
-    Assignment.aggregate([
+    var aggregateQuery = Assignment.aggregate([
         {
             $lookup: {
-                from: 'students', // Assurez-vous que c'est le nom correct de la collection des étudiants dans MongoDB
-                localField: 'studentId', // Le champ dans 'assignments' qui contient la référence à 'students'
-                foreignField: 'id', // Le champ correspondant dans 'students', généralement '_id'
-                as: 'studentDetails' // Le résultat de la jointure sera stocké dans ce nouveau champ
+                from: 'students', 
+                localField: 'studentId', 
+                foreignField: 'id', 
+                as: 'studentDetails' 
             }
         },
         {
             $unwind: {
                 path: '$studentDetails',
-                preserveNullAndEmptyArrays: true // Pour garder les assignments qui n'ont pas d'étudiants liés
+                preserveNullAndEmptyArrays: true
             }
         },
         {
@@ -38,15 +37,21 @@ function getAssignments(req, res) {
                 studentId: 1
             }
         }
-    ])
-    .then(assignments => {
-        res.send(assignments);
-    })
-    .catch(err => {
-        console.error('Error while getting assignments:', err);
-        res.status(500).send({ message: 'Error while getting assignments', error: err });
-    });
+    ]);
+
+    Assignment.aggregatePaginate(
+        aggregateQuery,
+        options,
+        (err, result) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        }
+    );
 }
+
 
   
 
