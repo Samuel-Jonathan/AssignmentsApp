@@ -3,6 +3,10 @@
         <mat-card-content>
             <mat-card-title>{{assignementTransmis.nom}}</mat-card-title>
             <mat-card-subtitle>{{assignementTransmis.dateDeRendu | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+            <mat-card-subtitle>{{assignementTransmis.subjectName}}</mat-card-subtitle>
+            <mat-card-subtitle>{{assignementTransmis.subjectTeacher}}</mat-card-subtitle>
+            <mat-card-subtitle>{{assignementTransmis.note}}</mat-card-subtitle>
+            <mat-card-subtitle>{{assignementTransmis.comment}}</mat-card-subtitle>
             <mat-card-actions id="bottom">
                 <mat-checkbox *ngIf="!assignementTransmis.rendu" (click)="onAssignmentRendu()"
                     [disabled]="!isAdmin()">Devoir

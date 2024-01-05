@@ -9,15 +9,29 @@ function getAssignments(req, res) {
     var aggregateQuery = Assignment.aggregate([
         {
             $lookup: {
-                from: 'students', 
-                localField: 'studentId', 
-                foreignField: 'id', 
-                as: 'studentDetails' 
+                from: 'students',
+                localField: 'studentId',
+                foreignField: 'id',
+                as: 'studentDetails'
             }
         },
         {
             $unwind: {
                 path: '$studentDetails',
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: 'subjects', // Nom de la table "subject"
+                localField: 'subjectId', // Champ dans la table "assignment" qui correspond à l'ID du sujet
+                foreignField: 'id', // Champ dans la table "subject" qui correspond à l'ID du sujet
+                as: 'subjectDetails' // Nom du champ où les détails du sujet seront stockés
+            }
+        },
+        {
+            $unwind: {
+                path: '$subjectDetails',
                 preserveNullAndEmptyArrays: true
             }
         },
@@ -34,7 +48,9 @@ function getAssignments(req, res) {
                 nom: 1,
                 rendu: 1,
                 subject: 1,
-                studentId: 1
+                studentId: 1,
+                subjectName: '$subjectDetails.name', // Champ "name" de la table "subject"
+                subjectTeacher: '$subjectDetails.teacher' // Champ "teacher" de la table "subject"
             }
         }
     ]);
@@ -53,16 +69,55 @@ function getAssignments(req, res) {
 }
 
 
-  
+
 
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res) {
     let assignmentId = req.params.id;
-    Assignment.findOne({ id: assignmentId }, (err, assignment) => {
-        if (err) { res.send(err) }
-        res.json(assignment);
-    })
+
+    Assignment.aggregate([
+        { $match: { id: parseInt(assignmentId, 10) } },
+        {
+            $lookup: {
+                from: 'students',
+                localField: 'studentId',
+                foreignField: 'id',
+                as: 'studentDetails'
+            }
+        },
+        { $unwind: '$studentDetails' },
+        {
+            $lookup: {
+                from: 'subjects',
+                localField: 'subjectId',
+                foreignField: 'id',
+                as: 'subjectDetails'
+            }
+        },
+        { $unwind: '$subjectDetails' },
+        {
+            $project: {
+                _id: 1,
+                id: 1,
+                studentName: { $concat: ['$studentDetails.first_name', ' ', '$studentDetails.last_name'] },
+                dateDeRendu: 1,
+                nom: 1,
+                rendu: 1,
+                subject: 1,
+                studentId: 1,
+                subjectName: '$subjectDetails.name',
+                subjectTeacher: '$subjectDetails.teacher'
+            }
+        }
+    ]).exec((err, assignment) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(assignment[0] || {});
+        }
+    });
 }
+
 
 // Ajout d'un assignment (POST)
 function postAssignment(req, res) {
@@ -72,6 +127,9 @@ function postAssignment(req, res) {
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
     assignment.studentId = req.body.studentId;
+    assignment.subjectId = req.body.subjectId;
+    assignment.note = req.body.note;
+    assignment.comment = req.body.comment;
     console.log("POST assignment reçu :");
     console.log(assignment)
 

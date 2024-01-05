@@ -69,6 +69,9 @@ export class AssignmentsService {
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
       nouvelAssignment.studentId = a.studentId;
+      nouvelAssignment.subjectId = a.subjectId;
+      nouvelAssignment.note = a.note;
+      nouvelAssignment.comment = a.comment;
       
       appelsVersAddAssignments.push(this.addAssignment(nouvelAssignment))
     });

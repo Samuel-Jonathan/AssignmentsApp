@@ -4,10 +4,10 @@
         <h3 mat-subheader>{{assignment.dateDeRendu | date}}</h3>
         <mat-list-item (click)="assignmentClique(assignment)">
           <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-            Devoir intitulé {{assignment.nom}} a été rendu.
+            {{assignment.subjectName}} : Devoir intitulé {{assignment.nom}} a été rendu par {{assignment.studentName}}.
           </p>
           <ng-template #nonsoumis>
-            Le devoir {{assignment.nom}} n'a pas été rendu.
+            {{assignment.subjectName}} : Le devoir {{assignment.nom}} n'a pas été rendu par {{assignment.studentName}}.
           </ng-template>
           <mat-divider></mat-divider>
         </mat-list-item>
