@@ -19,6 +19,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -53,7 +56,8 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     AppComponent,
     AssignmentsComponent,
     RenduDirective,
-    NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent, EditAssignmentComponent, LoginComponent
+    NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent, 
+    EditAssignmentComponent, LoginComponent
   ],
   imports: [
     JwtModule.forRoot({
@@ -80,7 +84,10 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     MatCheckboxModule,
     RouterModule.forRoot(routes),
     MatSlideToggleModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },
