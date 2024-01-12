@@ -23,10 +23,10 @@ function getAssignments(req, res) {
         },
         {
             $lookup: {
-                from: 'subjects', // Nom de la table "subject"
-                localField: 'subjectId', // Champ dans la table "assignment" qui correspond à l'ID du sujet
-                foreignField: 'id', // Champ dans la table "subject" qui correspond à l'ID du sujet
-                as: 'subjectDetails' // Nom du champ où les détails du sujet seront stockés
+                from: 'subjects', 
+                localField: 'subjectId', 
+                foreignField: 'id', 
+                as: 'subjectDetails' 
             }
         },
         {
@@ -106,7 +106,9 @@ function getAssignment(req, res) {
                 subject: 1,
                 studentId: 1,
                 subjectName: '$subjectDetails.name',
-                subjectTeacher: '$subjectDetails.teacher'
+                subjectTeacher: '$subjectDetails.teacher',
+                note: 1,
+                comment: 1
             }
         }
     ]).exec((err, assignment) => {
