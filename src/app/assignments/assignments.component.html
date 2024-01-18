@@ -1,6 +1,6 @@
 <main class="container">
-  <table mat-table [dataSource]="assignments" matSort matSortActive="nom" matSortDirection="asc">
 
+  <table mat-table [dataSource]="assignments" matSort matSortActive="nom" matSortDirection="asc">
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom du Devoir</th>
       <td mat-cell *matCellDef="let assignment">{{ assignment.nom }}</td>
@@ -8,7 +8,7 @@
 
     <ng-container matColumnDef="subjectName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Matière</th>
-      <td mat-cell *matCellDef="let assignment">{{ assignment.subjectName }}</td>
+      <td mat-cell *matCellDef="let assignment">{{ assignment.subjectName }} <img src="../assets/{{ assignment.imgSubject }}" alt="{{ assignment.nom }}" width="64" height="64"></td>
     </ng-container>
 
     <ng-container matColumnDef="studentName">

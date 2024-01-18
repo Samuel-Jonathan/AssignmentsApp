@@ -48,9 +48,10 @@ function getAssignments(req, res) {
                 nom: 1,
                 rendu: 1,
                 subject: 1,
-                studentId: 1,
-                subjectName: '$subjectDetails.name', // Champ "name" de la table "subject"
-                subjectTeacher: '$subjectDetails.teacher' // Champ "teacher" de la table "subject"
+                subjectName: '$subjectDetails.name', 
+                subjectTeacher: '$subjectDetails.teacher', 
+                imgSubject: '$subjectDetails.imgSubject',
+                imgTeacher: '$subjectDetails.imgTeacher'
             }
         }
     ]);
@@ -108,7 +109,9 @@ function getAssignment(req, res) {
                 subjectName: '$subjectDetails.name',
                 subjectTeacher: '$subjectDetails.teacher',
                 note: 1,
-                comment: 1
+                comment: 1,
+                imgSubject: '$subjectDetails.imgSubject',
+                imgTeacher: '$subjectDetails.imgTeacher'
             }
         }
     ]).exec((err, assignment) => {

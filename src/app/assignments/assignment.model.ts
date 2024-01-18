@@ -9,6 +9,8 @@ export class Assignment {
     subjectId!: number;
     subjectName!: string;
     subjectTeacher!: string;
+    imgSubject!: string;
+    imgTeacher!: string;
     note!: number;
     comment!: string;
 }
