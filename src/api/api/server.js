@@ -2,6 +2,7 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
+let subject = require('./routes/subjects')
 let user = require('./routes/users');
 
 let mongoose = require('mongoose');
@@ -122,6 +123,9 @@ app.route(prefix + '/assignments/:id')
 
 app.route(prefix + '/users/:username')
   .get(user.getUser);
+
+app.route(prefix + '/subjects')
+  .get(subject.getSubjects);
 
 
 

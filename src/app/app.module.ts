@@ -31,6 +31,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { MatSelectModule } from '@angular/material/select';
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -82,6 +83,7 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     MatSidenavModule,
     MatCardModule,
     MatCheckboxModule,
+    MatSelectModule,
     RouterModule.forRoot(routes),
     MatSlideToggleModule,
     HttpClientModule,

@@ -9,6 +9,6 @@ const subjectSchema = new Schema({
   imgTeacher: {type: String, required: true}
 });
 
-const Subject = mongoose.model('Subject', subjectSchema);
+const Subject = mongoose.model('subject', subjectSchema);
 
 module.exports = Subject;
