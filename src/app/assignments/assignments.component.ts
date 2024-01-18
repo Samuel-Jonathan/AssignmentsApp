@@ -21,6 +21,9 @@ export class AssignmentsComponent implements OnInit {
   assignmentSelectionne: Assignment | null = null;
   formVisible = false;
   assignments!: MatTableDataSource<Assignment>;
+  searchQuery: string = '';
+  filteredAssignments: MatTableDataSource<Assignment> | null = null;
+
 
   page: number = 1;
   limit: number = 10;
@@ -34,28 +37,56 @@ export class AssignmentsComponent implements OnInit {
   constructor(private assignmentService: AssignmentsService) { }
 
   ngOnInit(): void {
+    this.assignments = new MatTableDataSource<Assignment>([]);
     this.getAssignments();
     setTimeout(() => {
       this.ajoutActive = true;
     }, 2000)
   }
 
+  getDataSource() {
+    return this.filteredAssignments || this.assignments;
+  }
+  
+
   getAssignments() {
+    const dataSource = this.filteredAssignments || this.assignments;
+  
     this.assignmentService.getAssignmentPagine(this.page, this.limit)
       .subscribe(
         data => {
-          this.assignments = new MatTableDataSource(data.docs);
+          if (!this.filteredAssignments) {
+            dataSource.data = data.docs;
+          }
           this.totalDocs = data.totalDocs;
           this.totalPages = data.totalPages;
           this.nextPage = data.nextPage;
           this.prevPage = data.prevPage;
           this.hasPrevPage = data.hasPrevPage;
           this.hasNextPage = data.hasNextPage;
-          this.assignments.sort = this.sort;
+          dataSource.sort = this.sort;
           this.sort.disableClear = true;
         }
-      )
+      );
   }
+  
+
+  searchAssignments() {
+    if (this.searchQuery.trim() === '') {
+      this.filteredAssignments = null;
+    } else {
+      const filteredData = this.assignments?.data.filter((assignment) =>
+        assignment.nom.toLowerCase().startsWith(this.searchQuery.toLowerCase())
+      );
+      this.filteredAssignments = new MatTableDataSource<Assignment>(filteredData || []);
+      this.filteredAssignments.sort = this.sort;
+      this.sort.disableClear = true;
+    }
+    this.getAssignments(); // Mettez à jour les données affichées.
+  }
+  
+  
+  
 
   onLimitResult(event: PageEvent) {
     this.limit = event.pageSize;
@@ -63,14 +94,14 @@ export class AssignmentsComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
-    const newPageIndex = event.pageIndex + 1; 
-    if (newPageIndex !== this.page) { 
-      this.page = newPageIndex; 
-      this.getAssignments(); 
+    const newPageIndex = event.pageIndex + 1;
+    if (newPageIndex !== this.page) {
+      this.page = newPageIndex;
+      this.getAssignments();
     }
   }
 
- 
+
 
   assignmentClique(assignment: Assignment) {
     this.assignmentSelectionne = assignment;

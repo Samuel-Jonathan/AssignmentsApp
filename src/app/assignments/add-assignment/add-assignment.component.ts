@@ -13,7 +13,7 @@ export class AddAssignmentComponent implements OnInit {
   nomDevoir!: string;
   dateRendu!: Date;
   subjects: Subject[] = [];
-  selectedSubjectId: number | undefined; 
+  selectedSubjectId: number | undefined;
 
   constructor(private assignmentsService: AssignmentsService, private subjectsService: SubjectsService) { }
 
@@ -33,7 +33,7 @@ export class AddAssignmentComponent implements OnInit {
     let assignments: Assignment[] = [];
 
     if (this.selectedSubjectId !== undefined) {
-      newAssignment.subjectId = this.selectedSubjectId; 
+      newAssignment.subjectId = this.selectedSubjectId;
     }
 
     this.assignmentsService.getAssignments()
