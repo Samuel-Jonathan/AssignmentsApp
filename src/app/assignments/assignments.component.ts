@@ -12,8 +12,9 @@ import { PageEvent } from '@angular/material/paginator';
 })
 
 export class AssignmentsComponent implements OnInit {
+
   @ViewChild(MatSort) sort!: MatSort;
- 
+
 
   titre: String = "Mon application Angular sur les assignments"
   ajoutActive = true;
@@ -56,41 +57,23 @@ export class AssignmentsComponent implements OnInit {
       )
   }
 
-  onPageChange(event: PageEvent) {
+  onLimitResult(event: PageEvent) {
     this.limit = event.pageSize;
     this.getAssignments();
   }
 
+  onPageChange(event: PageEvent) {
+    const newPageIndex = event.pageIndex + 1; 
+    if (newPageIndex !== this.page) { 
+      this.page = newPageIndex; 
+      this.getAssignments(); 
+    }
+  }
+
+ 
+
   assignmentClique(assignment: Assignment) {
     this.assignmentSelectionne = assignment;
-  }
-
-  nextPageClick() {
-    this.page++;
-    this.getAssignments();
-  }
-
-  prevPageClick() {
-    this.page--;
-    this.getAssignments();
-  }
-
-  firstPage() {
-    this.page = 1;
-    this.getAssignments();
-  }
-
-  lastPage() {
-    this.page = this.totalPages;
-    this.getAssignments();
-  }
-
-  isLastPage() {
-    return this.page != this.totalPages;
-  }
-
-  isFirstPage() {
-    return this.page != 1;
   }
 
   peuplerBD() {
