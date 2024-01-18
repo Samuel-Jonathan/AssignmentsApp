@@ -50,12 +50,15 @@ export class AssignmentsComponent implements OnInit {
   
   applyRenduFilter() {
     if (this.renduFilter) {
+      const currentSort = this.getDataSource().sort;
       const filteredData = this.getDataSource().data.filter((assignment) => assignment.rendu);
       this.filteredAssignments = new MatTableDataSource<Assignment>(filteredData);
+      this.filteredAssignments.sort = currentSort; // Restaurez le tri après le filtre.
     } else {
       this.filteredAssignments = null;
     }
   }
+  
   
 
   getAssignments() {
