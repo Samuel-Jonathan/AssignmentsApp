@@ -18,7 +18,6 @@ export class AssignmentsComponent implements OnInit {
 
   titre: String = "Mon application Angular sur les assignments"
   ajoutActive = true;
-  assignmentSelectionne: Assignment | null = null;
   formVisible = false;
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
@@ -47,41 +46,46 @@ export class AssignmentsComponent implements OnInit {
   getDataSource() {
     return this.filteredAssignments || this.assignments;
   }
-  
+
   applyRenduFilter() {
     if (this.renduFilter) {
       const currentSort = this.getDataSource().sort;
       const filteredData = this.getDataSource().data.filter((assignment) => assignment.rendu);
       this.filteredAssignments = new MatTableDataSource<Assignment>(filteredData);
-      this.filteredAssignments.sort = currentSort; // Restaurez le tri après le filtre.
+      this.filteredAssignments.sort = currentSort;
     } else {
       this.filteredAssignments = null;
     }
   }
-  
-  
 
   getAssignments() {
-    const dataSource = this.filteredAssignments || this.assignments;
-  
-    this.assignmentService.getAssignmentPagine(this.page, this.limit)
-      .subscribe(
-        data => {
-          if (!this.filteredAssignments) {
-            dataSource.data = data.docs;
+    if (!this.filteredAssignments) {
+      this.assignmentService.getAssignmentPagine(this.page, this.limit)
+        .subscribe(
+          data => {
+            this.assignments.data = data.docs;
+            this.totalDocs = data.totalDocs;
+            this.totalPages = Math.ceil(this.totalDocs / this.limit); // Calcul du nombre total de pages en fonction du nombre total de résultats et du nombre de résultats par page
+            this.nextPage = data.nextPage;
+            this.prevPage = data.prevPage;
+            this.hasPrevPage = data.hasPrevPage;
+            this.hasNextPage = data.hasNextPage;
+            this.assignments.sort = this.sort;
+            this.sort.disableClear = true;
           }
-          this.totalDocs = data.totalDocs;
-          this.totalPages = data.totalPages;
-          this.nextPage = data.nextPage;
-          this.prevPage = data.prevPage;
-          this.hasPrevPage = data.hasPrevPage;
-          this.hasNextPage = data.hasNextPage;
-          dataSource.sort = this.sort;
-          this.sort.disableClear = true;
-        }
-      );
+        );
+    } else {
+      this.assignments.data = this.filteredAssignments.data;
+      this.totalDocs = this.filteredAssignments.data.length;
+      this.totalPages = Math.ceil(this.totalDocs / this.limit); // Calcul du nombre total de pages en fonction du nombre total de résultats et du nombre de résultats par page
+      this.nextPage = 1;
+      this.prevPage = 1;
+      this.hasPrevPage = false;
+      this.hasNextPage = false;
+      this.assignments.sort = this.sort;
+      this.sort.disableClear = true;
+    }
   }
-  
 
   searchAssignments() {
     if (this.searchQuery.trim() === '') {
@@ -94,11 +98,8 @@ export class AssignmentsComponent implements OnInit {
       this.filteredAssignments.sort = this.sort;
       this.sort.disableClear = true;
     }
-    this.getAssignments(); 
+    this.getAssignments();
   }
-  
-  
-  
 
   onLimitResult(event: PageEvent) {
     this.limit = event.pageSize;
@@ -111,12 +112,6 @@ export class AssignmentsComponent implements OnInit {
       this.page = newPageIndex;
       this.getAssignments();
     }
-  }
-
-
-
-  assignmentClique(assignment: Assignment) {
-    this.assignmentSelectionne = assignment;
   }
 
   peuplerBD() {

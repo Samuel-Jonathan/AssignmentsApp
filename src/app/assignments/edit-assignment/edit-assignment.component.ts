@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,11 +13,22 @@ export class EditAssignmentComponent implements OnInit {
   assignment!: Assignment | undefined;
   nomAssignment!: string;
   dateDeRendu!: Date;
+  @ViewChild('stepper') stepper: any;
 
   constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.getAssignment();
+  }
+
+  nextStep(stepper: any, form: any) {
+    if (form.valid) {
+      stepper.next();
+    }
+  }
+
+  previousStep(stepper: any) {
+    stepper.previous();
   }
 
   getAssignment() {

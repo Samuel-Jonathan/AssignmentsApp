@@ -32,6 +32,7 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -47,7 +48,6 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     tokenGetter: () => {
       return sessionStorage.getItem('access_token');
     },
-    // Additional options if needed
   };
 }
 
@@ -89,7 +89,8 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatStepperModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },

@@ -1,15 +1,33 @@
-<div class="container" *ngIf="assignment">
-    <h1>Édition de l'assignment {{assignment.nom}}</h1>
-    <form ngForm class="form" #formupdate (submit)="onSaveAssignment(); formupdate.reset(); ">
+<mat-horizontal-stepper [linear]="true" #stepper>
+    <!-- Étape 1 -->
+    <mat-step>
+      <ng-template matStepLabel>Étape 1</ng-template>
+      <form #formStep1="ngForm">
+        <!-- Vos champs pour la première étape ici -->
         <mat-form-field>
-            <input matInput placeholder="Édition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
+          <input matInput placeholder="Édition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
         </mat-form-field>
         <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Édition de la date" [(ngModel)]="dateDeRendu"
-                name="date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+          <input matInput [matDatepicker]="picker" placeholder="Édition de la date" [(ngModel)]="dateDeRendu" name="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <button mat-raised-button color="primary" [disabled]="((!nomAssignment) || (!dateDeRendu))">Sauver</button>
-    </form>
-</div>
+        <button mat-raised-button color="primary" (click)="nextStep(stepper, formStep1)">Suivant</button>
+      </form>
+    </mat-step>
+  
+    <!-- Étape 2 -->
+    <mat-step>
+      <ng-template matStepLabel>Étape 2</ng-template>
+      <form #formStep2="ngForm">
+        <!-- Vos champs pour la deuxième étape ici -->
+        <!-- Par exemple, si vous souhaitez éditer d'autres informations de l'Assignment -->
+        <!-- <mat-form-field>
+          <input matInput placeholder="Autre champ" [(ngModel)]="autreChamp" name="autre-champ">
+        </mat-form-field> -->
+        <button mat-raised-button color="primary" (click)="onSaveAssignment(); formStep2.reset();">Sauver</button>
+        <button mat-button color="warn" (click)="previousStep(stepper)">Retour</button>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+  
