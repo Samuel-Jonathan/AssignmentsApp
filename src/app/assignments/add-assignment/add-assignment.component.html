@@ -8,9 +8,15 @@
     <input matInput #nomAssignment placeholder="Nom du devoir" [(ngModel)]="nomDevoir" name="nom">
   </mat-form-field>
   <mat-form-field>
-    <mat-label for="subject">Sujet</mat-label>
+    <mat-label for="subject">Matière</mat-label>
     <mat-select [(ngModel)]="selectedSubjectId" name="subject" id="subject">
       <mat-option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="student">Étudiant</mat-label>
+    <mat-select [(ngModel)]="selectedStudentId" name="student" id="student">
+      <mat-option *ngFor="let student of students" [value]="student.id">{{ student.first_name }}</mat-option>
     </mat-select>
   </mat-form-field>
   <button mat-stroked-button color="primary" (click)="onSubmit()">

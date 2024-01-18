@@ -4,6 +4,7 @@ let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
 let subject = require('./routes/subjects')
 let user = require('./routes/users');
+let student = require('./routes/students');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -126,6 +127,9 @@ app.route(prefix + '/users/:username')
 
 app.route(prefix + '/subjects')
   .get(subject.getSubjects);
+
+app.route(prefix + '/students')
+  .get(student.getStudents);
 
 
 
