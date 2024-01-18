@@ -9,7 +9,7 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label for="subject">Sujet</mat-label>
-    <mat-select name="subject" id="subject">
+    <mat-select [(ngModel)]="selectedSubjectId" name="subject" id="subject">
       <mat-option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</mat-option>
     </mat-select>
   </mat-form-field>

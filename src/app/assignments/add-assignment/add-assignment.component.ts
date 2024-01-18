@@ -13,6 +13,7 @@ export class AddAssignmentComponent implements OnInit {
   nomDevoir!: string;
   dateRendu!: Date;
   subjects: Subject[] = [];
+  selectedSubjectId: number | undefined; 
 
   constructor(private assignmentsService: AssignmentsService, private subjectsService: SubjectsService) { }
 
@@ -30,6 +31,10 @@ export class AddAssignmentComponent implements OnInit {
   onSubmit() {
     const newAssignment = new Assignment();
     let assignments: Assignment[] = [];
+
+    if (this.selectedSubjectId !== undefined) {
+      newAssignment.subjectId = this.selectedSubjectId; 
+    }
 
     this.assignmentsService.getAssignments()
       .subscribe((assignmentsTab: Assignment[]) => {
