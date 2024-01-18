@@ -18,7 +18,6 @@ export class AssignmentsComponent implements OnInit {
 
   titre: String = "Mon application Angular sur les assignments"
   ajoutActive = true;
-  assignmentSelectionne: Assignment | null = null;
   formVisible = false;
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
@@ -47,19 +46,17 @@ export class AssignmentsComponent implements OnInit {
   getDataSource() {
     return this.filteredAssignments || this.assignments;
   }
-  
+
   applyRenduFilter() {
     if (this.renduFilter) {
       const currentSort = this.getDataSource().sort;
       const filteredData = this.getDataSource().data.filter((assignment) => assignment.rendu);
       this.filteredAssignments = new MatTableDataSource<Assignment>(filteredData);
-      this.filteredAssignments.sort = currentSort; 
+      this.filteredAssignments.sort = currentSort;
     } else {
       this.filteredAssignments = null;
     }
   }
-  
-  
 
   getAssignments() {
     if (!this.filteredAssignments) {
@@ -89,8 +86,6 @@ export class AssignmentsComponent implements OnInit {
       this.sort.disableClear = true;
     }
   }
-  
-  
 
   searchAssignments() {
     if (this.searchQuery.trim() === '') {
@@ -103,11 +98,8 @@ export class AssignmentsComponent implements OnInit {
       this.filteredAssignments.sort = this.sort;
       this.sort.disableClear = true;
     }
-    this.getAssignments(); 
+    this.getAssignments();
   }
-  
-  
-  
 
   onLimitResult(event: PageEvent) {
     this.limit = event.pageSize;
@@ -120,12 +112,6 @@ export class AssignmentsComponent implements OnInit {
       this.page = newPageIndex;
       this.getAssignments();
     }
-  }
-
-
-
-  assignmentClique(assignment: Assignment) {
-    this.assignmentSelectionne = assignment;
   }
 
   peuplerBD() {

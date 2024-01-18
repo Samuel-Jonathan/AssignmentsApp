@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { SubjectsService } from 'src/app/shared/subjects.service';
@@ -14,11 +14,20 @@ export class AddAssignmentComponent implements OnInit {
   dateRendu!: Date;
   subjects: Subject[] = [];
   selectedSubjectId: number | undefined;
+  @ViewChild('stepper') stepper: any; 
 
   constructor(private assignmentsService: AssignmentsService, private subjectsService: SubjectsService) { }
 
   ngOnInit(): void {
     this.getSubjects();
+  }
+
+  nextStep(stepper: any) {
+    stepper.next();
+  }
+
+  previousStep(stepper: any) {
+    stepper.previous();
   }
 
   getSubjects() {
