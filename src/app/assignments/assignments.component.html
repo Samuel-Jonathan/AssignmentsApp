@@ -38,7 +38,12 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+  <mat-paginator
+  [pageSize]="limit"
+  [pageSizeOptions]="[10, 25, 50]"
+  showFirstLastButtons
+  (page)="onPageChange($event)"
+></mat-paginator>
 
 
   <button (click)="peuplerBD()">Add Assignments in database</button>

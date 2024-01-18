@@ -3,6 +3,7 @@ import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-assignments',
@@ -37,7 +38,7 @@ export class AssignmentsComponent implements OnInit {
       this.ajoutActive = true;
     }, 2000)
   }
-  ascendingOrder = true;
+
   getAssignments() {
     this.assignmentService.getAssignmentPagine(this.page, this.limit)
       .subscribe(
@@ -53,6 +54,11 @@ export class AssignmentsComponent implements OnInit {
           this.sort.disableClear = true;
         }
       )
+  }
+
+  onPageChange(event: PageEvent) {
+    this.limit = event.pageSize;
+    this.getAssignments();
   }
 
   assignmentClique(assignment: Assignment) {
