@@ -23,7 +23,7 @@ export class AssignmentsComponent implements OnInit {
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
   filteredAssignments: MatTableDataSource<Assignment> | null = null;
-
+  renduFilter: boolean = false;
 
   page: number = 1;
   limit: number = 10;
@@ -46,6 +46,15 @@ export class AssignmentsComponent implements OnInit {
 
   getDataSource() {
     return this.filteredAssignments || this.assignments;
+  }
+  
+  applyRenduFilter() {
+    if (this.renduFilter) {
+      const filteredData = this.getDataSource().data.filter((assignment) => assignment.rendu);
+      this.filteredAssignments = new MatTableDataSource<Assignment>(filteredData);
+    } else {
+      this.filteredAssignments = null;
+    }
   }
   
 
@@ -82,7 +91,7 @@ export class AssignmentsComponent implements OnInit {
       this.filteredAssignments.sort = this.sort;
       this.sort.disableClear = true;
     }
-    this.getAssignments(); // Mettez à jour les données affichées.
+    this.getAssignments(); 
   }
   
   

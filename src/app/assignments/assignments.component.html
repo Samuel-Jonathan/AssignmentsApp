@@ -8,7 +8,10 @@
       <mat-icon>search</mat-icon>
     </button>
   </div>
-
+  <div class="filter-container">
+    <mat-checkbox [(ngModel)]="renduFilter" (change)="applyRenduFilter()">Afficher seulement les rendus</mat-checkbox>
+  </div>
+  
   <table mat-table [dataSource]="getDataSource()" matSort matSortActive="nom" matSortDirection="asc">
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom du Devoir</th>
