@@ -14,10 +14,6 @@ export class AssignmentsService {
 
   url = "http://localhost:8010/api/assignments";
 
-  getAssignments(): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(this.url);
-  }
-
   getToken() {
     return sessionStorage.getItem('access_token');
   }

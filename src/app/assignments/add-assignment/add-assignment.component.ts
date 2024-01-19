@@ -18,10 +18,10 @@ export class AddAssignmentComponent implements OnInit {
   students: Student[] = [];
   selectedSubjectId: number | undefined;
   selectedStudentId: number | undefined;
-  @ViewChild('stepper') stepper: any; 
-  
+  @ViewChild('stepper') stepper: any;
 
-  constructor(private assignmentsService: AssignmentsService, 
+
+  constructor(private assignmentsService: AssignmentsService,
     private subjectsService: SubjectsService,
     private studentsService: StudentsService) { }
 
@@ -54,23 +54,17 @@ export class AddAssignmentComponent implements OnInit {
 
   onSubmit() {
     const newAssignment = new Assignment();
-    let assignments: Assignment[] = [];
 
     if (this.selectedSubjectId !== undefined) {
       newAssignment.subjectId = this.selectedSubjectId;
     }
 
-    this.assignmentsService.getAssignments()
-      .subscribe((assignmentsTab: Assignment[]) => {
-        assignments = assignmentsTab;
+    const newAssignmentId = Math.floor(Math.random() * 1000);
 
-        const newAssignmentId = Math.floor(Math.random() * 1000);
+    newAssignment.id = newAssignmentId;
+    newAssignment.nom = this.nomDevoir;
+    newAssignment.dateDeRendu = this.dateRendu;
 
-        newAssignment.id = newAssignmentId;
-        newAssignment.nom = this.nomDevoir;
-        newAssignment.dateDeRendu = this.dateRendu;
-
-        this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
-      });
+    this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
   };
 }
