@@ -37,7 +37,7 @@ export class AssignmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.assignments = new MatTableDataSource<Assignment>([]);
-    this.getAssignments();
+    this.searchAssignments();
     setTimeout(() => {
       this.ajoutActive = true;
     }, 2000)
@@ -60,7 +60,7 @@ export class AssignmentsComponent implements OnInit {
 
   getAssignments() {
     if (!this.filteredAssignments) {
-      this.assignmentService.getAssignmentPagine(this.page, this.limit)
+      this.assignmentService.getAssignmentPagine(this.page, this.limit, this.searchQuery)
         .subscribe(
           data => {
             this.assignments.data = data.docs;
@@ -88,18 +88,26 @@ export class AssignmentsComponent implements OnInit {
   }
 
   searchAssignments() {
-    if (this.searchQuery.trim() === '') {
-      this.filteredAssignments = null;
+    const search = this.searchQuery.trim();
+    if (search === '') {
+      this.page = 1;
+      this.getAssignments();
     } else {
-      const filteredData = this.assignments?.data.filter((assignment) =>
-        assignment.nom.toLowerCase().startsWith(this.searchQuery.toLowerCase())
-      );
-      this.filteredAssignments = new MatTableDataSource<Assignment>(filteredData || []);
-      this.filteredAssignments.sort = this.sort;
-      this.sort.disableClear = true;
+      this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
+        .subscribe(
+          data => {
+            const newDataSource = new MatTableDataSource<Assignment>(data.docs);
+            this.assignments.data = newDataSource.data;
+            this.totalDocs = data.totalDocs;
+            this.totalPages = Math.ceil(this.totalDocs / this.limit);
+            this.assignments.sort = this.sort;
+            this.sort.disableClear = true;
+          }
+        );
     }
-    this.getAssignments();
+    // Pas besoin d'appeler getAssignments ici, puisque getAssignmentPagine est déjà appelé ci-dessus.
   }
+
 
   onLimitResult(event: PageEvent) {
     this.limit = event.pageSize;
@@ -110,7 +118,8 @@ export class AssignmentsComponent implements OnInit {
     const newPageIndex = event.pageIndex + 1;
     if (newPageIndex !== this.page) {
       this.page = newPageIndex;
-      this.getAssignments();
+      // Assurez-vous d'inclure le terme de recherche actuel ici.
+      this.searchAssignments();
     }
   }
 

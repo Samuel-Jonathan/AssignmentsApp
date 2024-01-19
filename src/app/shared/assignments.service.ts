@@ -28,7 +28,11 @@ export class AssignmentsService {
     };
   }
 
-  getAssignment(id:number):Observable<Assignment|undefined>{
+  getAllAssignments(): Observable<any> {
+    return this.http.get<Assignment[]>(this.url + "/all");
+  }
+
+  getAssignment(id: number): Observable<Assignment | undefined> {
     return this.http.get<Assignment>(this.url + "/" + id);
   }
 
@@ -36,7 +40,7 @@ export class AssignmentsService {
     if (!this.authService.isAuthenticated()) {
       return new Observable<Assignment | undefined>();
     }
-    
+
     return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
   }
 
@@ -68,13 +72,18 @@ export class AssignmentsService {
       nouvelAssignment.subjectId = a.subjectId;
       nouvelAssignment.note = a.note;
       nouvelAssignment.comment = a.comment;
-      
+
       appelsVersAddAssignments.push(this.addAssignment(nouvelAssignment))
     });
     return forkJoin(appelsVersAddAssignments);
   }
 
-  getAssignmentPagine(page: number, limit: number): Observable<any> {
-    return this.http.get<any>(this.url + '?page=' + page + '&limit=' + limit, this.getHttpOptions());
+  getAssignmentPagine(page: number, limit: number, search?: string): Observable<any> {
+    let params = `?page=${page}&limit=${limit}`;
+    if (search) {
+      params += `&search=${encodeURIComponent(search)}`;
+    }
+    return this.http.get<any>(this.url + params, this.getHttpOptions());
   }
+
 }

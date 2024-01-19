@@ -4,70 +4,70 @@ function getAssignments(req, res) {
     const options = {
         page: parseInt(req.query.page, 10) || 1,
         limit: parseInt(req.query.limit, 10) || 10,
+        // Ajout de l'option de tri dans les options de pagination
+        sort: { nom: 1 } // Tri par 'nom' dans l'ordre ascendant
     };
 
-    var aggregateQuery = Assignment.aggregate([
-        {
-            $lookup: {
-                from: 'students',
-                localField: 'studentId',
-                foreignField: 'id',
-                as: 'studentDetails'
-            }
-        },
-        {
-            $unwind: {
-                path: '$studentDetails',
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $lookup: {
-                from: 'subjects', 
-                localField: 'subjectId', 
-                foreignField: 'id', 
-                as: 'subjectDetails' 
-            }
-        },
-        {
-            $unwind: {
-                path: '$subjectDetails',
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $project: {
-                _id: 1,
-                id: 1,
-                studentName: {
-                    $concat: [
-                        '$studentDetails.first_name', ' ', '$studentDetails.last_name'
-                    ]
-                },
-                dateDeRendu: 1,
-                nom: 1,
-                rendu: 1,
-                subject: 1,
-                subjectName: '$subjectDetails.name', 
-                subjectTeacher: '$subjectDetails.teacher', 
-                imgSubject: '$subjectDetails.imgSubject',
-                imgTeacher: '$subjectDetails.imgTeacher'
-            }
-        }
-    ]);
+    let aggregateQuery = Assignment.aggregate();
+    
+    // Ajout d'une étape de match si un terme de recherche est spécifié
+    if (req.query.search) {
+        aggregateQuery = aggregateQuery.match({
+            nom: { $regex: '^' + req.query.search, $options: 'i' }
+        });
+    }
 
-    Assignment.aggregatePaginate(
-        aggregateQuery,
-        options,
-        (err, result) => {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                res.send(result);
-            }
+    // Continuation de la construction de la requête d'agrégation
+    aggregateQuery = aggregateQuery.lookup({
+        from: 'students',
+        localField: 'studentId',
+        foreignField: 'id',
+        as: 'studentDetails'
+    }).unwind({
+        path: '$studentDetails',
+        preserveNullAndEmptyArrays: true
+    }).lookup({
+        from: 'subjects',
+        localField: 'subjectId',
+        foreignField: 'id',
+        as: 'subjectDetails'
+    }).unwind({
+        path: '$subjectDetails',
+        preserveNullAndEmptyArrays: true
+    });
+
+    // Ajout d'une étape de tri avant la projection
+    aggregateQuery = aggregateQuery.sort({
+        nom: 1 // Tri par 'nom' dans l'ordre ascendant
+    }).project({
+        _id: 1,
+        id: 1,
+        studentName: {
+            $concat: [
+                '$studentDetails.first_name', ' ', '$studentDetails.last_name'
+            ]
+        },
+        dateDeRendu: 1,
+        nom: 1,
+        rendu: 1,
+        subjectName: '$subjectDetails.name',
+        subjectTeacher: '$subjectDetails.teacher',
+        imgSubject: '$subjectDetails.imgSubject',
+        imgTeacher: '$subjectDetails.imgTeacher'
+    });
+
+    // Exécution de la requête d'agrégation avec pagination
+    Assignment.aggregatePaginate(aggregateQuery, options, (err, result) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(result);
         }
-    );
+    });
 }
+
+
+
 
 
 
@@ -169,6 +169,16 @@ function deleteAssignment(req, res) {
     })
 }
 
+function getAllAssignments(req, res) {
+    Assignment.find({}, (err, assignments) => {
+        if (err) {
+            console.error(err);
+        } else {
+            res.send(assignments);
+        }
+    });
+}
 
 
-module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };
+
+module.exports = { getAllAssignments, getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };

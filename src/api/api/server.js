@@ -110,6 +110,8 @@ function authenticateToken(req, res, next) {
   });
 }
 
+app.route(prefix + '/assignments/all')
+   .get(assignment.getAllAssignments)
 
 // Routes pour /api/assignments avec authentification
 app.route(prefix + '/assignments')
@@ -130,6 +132,8 @@ app.route(prefix + '/subjects')
 
 app.route(prefix + '/students')
   .get(student.getStudents);
+
+
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
