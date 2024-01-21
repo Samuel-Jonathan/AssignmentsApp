@@ -22,35 +22,40 @@ export class AccountComponent {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }
-    
-    if(this.password.length < 8){
-      alert("Le mot de passe doit possèder au moins 8 caractères");
+
+    if (this.password.length < 8) {
+      alert("Le mot de passe doit posséder au moins 8 caractères");
       return;
     }
 
-    this.authService.register(this.username, this.password, this.role)
-    .subscribe(
-      (response) => {
-        if (response.status === 201) {
-          console.log("User créé avec succès.");
-          this.router.navigate(['/home']);
-        } else {
-          // Gérer les autres codes de statut de succès ici si nécessaire.
-          console.log("Réponse inattendue du serveur:", response);
-        }
+    // Vérifier d'abord si l'utilisateur existe
+    this.authService.getUser(this.username).subscribe(
+      () => {
+        // Si cette ligne est exécutée, cela signifie que l'utilisateur existe déjà
+        alert("Un compte avec ce nom d'utilisateur existe déjà.");
       },
       (error) => {
-        if (error.status === 201) {
-          // Le serveur a renvoyé 201, donc c'est un succès
-          console.log("User créé avec succès.");
-          this.router.navigate(['/home']);
+        // Si une erreur est retournée, dans ce cas un utilisateur non trouvé (404), tenter de créer un nouveau compte
+        if (error.status === 404) {
+          this.authService.register(this.username, this.password, this.role)
+            .subscribe(
+              () => {
+                console.log("User créé avec succès.");
+                this.router.navigate(['/home']);
+              },
+              (registerError) => {
+                // Gérer l'erreur d'enregistrement ici
+                console.error("Erreur lors de la création de l'utilisateur :", registerError);
+                alert("Il y a eu un problème lors de la création de votre compte. Veuillez réessayer.");
+              }
+            );
         } else {
-          // Vraie erreur
-          console.error("Erreur lors de la création de l'utilisateur :", error);
-          // Traitez l'erreur ici, par exemple en affichant un message d'erreur à l'utilisateur.
+          // Gérer d'autres types d'erreurs ici (par exemple, erreur de serveur)
+          console.error("Erreur lors de la récupération de l'utilisateur :", error);
+          alert("Il y a eu un problème lors de la vérification de votre nom d'utilisateur. Veuillez réessayer.");
         }
       }
     );
-  
   }
+
 }
