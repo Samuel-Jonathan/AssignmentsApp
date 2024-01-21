@@ -51,8 +51,11 @@
     </tr>
   </table>
 
-  <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons
+  <mat-paginator [disabled]="isLoading" [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons
     (page)="onLimitResult($event)" (page)="onPageChange($event)"></mat-paginator>
-
+    <div *ngIf="isLoading" class="loading-spinner">
+      <mat-spinner></mat-spinner> <!-- or any other loading spinner you prefer -->
+    </div>
+    
   <button (click)="peuplerBD()">Add Assignments in database</button>
 </main>

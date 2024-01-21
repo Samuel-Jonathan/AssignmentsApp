@@ -33,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -90,7 +91,8 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatStepperModule
+    MatStepperModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },

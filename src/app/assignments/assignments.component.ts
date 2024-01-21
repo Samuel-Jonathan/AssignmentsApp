@@ -3,7 +3,7 @@ import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-assignments',
@@ -14,6 +14,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class AssignmentsComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
 
   titre: String = "Mon application Angular sur les assignments"
@@ -21,6 +22,8 @@ export class AssignmentsComponent implements OnInit {
   formVisible = false;
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
+  private previousSearch: string = '';
+  isLoading: boolean = false;
   filteredAssignments: MatTableDataSource<Assignment> | null = null;
   renduFilter: boolean = false;
 
@@ -72,6 +75,7 @@ export class AssignmentsComponent implements OnInit {
             this.hasNextPage = data.hasNextPage;
             this.assignments.sort = this.sort;
             this.sort.disableClear = true;
+            this.isLoading = false;
           }
         );
     } else {
@@ -88,24 +92,32 @@ export class AssignmentsComponent implements OnInit {
   }
 
   searchAssignments() {
+    this.isLoading = true; 
     const search = this.searchQuery.trim();
-    if (search === '') {
-      this.page = 1;
-      this.getAssignments();
-    } else {
-      this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
-        .subscribe(
-          data => {
-            const newDataSource = new MatTableDataSource<Assignment>(data.docs);
-            this.assignments.data = newDataSource.data;
-            this.totalDocs = data.totalDocs;
-            this.totalPages = Math.ceil(this.totalDocs / this.limit);
-            this.assignments.sort = this.sort;
-            this.sort.disableClear = true;
-          }
-        );
+  
+    // If there's a new search term and it's different from the previous one, reset to the first page
+    if (search !== this.previousSearch) {
+      this.page = 1; // Reset to the first page only for a new search term
+      this.previousSearch = search;
     }
-    // Pas besoin d'appeler getAssignments ici, puisque getAssignmentPagine est déjà appelé ci-dessus.
+  
+    this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
+      .subscribe(
+        data => {
+          this.isLoading = false;
+          const newDataSource = new MatTableDataSource<Assignment>(data.docs);
+          this.assignments.data = newDataSource.data;
+          this.totalDocs = data.totalDocs;
+          this.totalPages = Math.ceil(this.totalDocs / this.limit);
+          this.assignments.sort = this.sort;
+          this.sort.disableClear = true;
+  
+          // If a new search term is entered, update the paginator's pageIndex to 0
+          if (this.page === 1) {
+            this.paginator.pageIndex = 0;
+          }
+        }
+      );
   }
 
 
@@ -115,11 +127,10 @@ export class AssignmentsComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
-    const newPageIndex = event.pageIndex + 1;
+    const newPageIndex = event.pageIndex + 1; // Material paginator is zero-based, so add 1 for consistency with your page numbering
     if (newPageIndex !== this.page) {
       this.page = newPageIndex;
-      // Assurez-vous d'inclure le terme de recherche actuel ici.
-      this.searchAssignments();
+      this.searchAssignments(); // This will retain the current search term and fetch the relevant page
     }
   }
 
