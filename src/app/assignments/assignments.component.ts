@@ -23,6 +23,8 @@ export class AssignmentsComponent implements OnInit {
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
   private previousSearch: string = '';
+  private pageBeforeSearch: number | null = null;
+
   isLoading: boolean = false;
   filteredAssignments: MatTableDataSource<Assignment> | null = null;
   renduFilter: boolean = false;
@@ -92,15 +94,25 @@ export class AssignmentsComponent implements OnInit {
   }
 
   searchAssignments() {
-    this.isLoading = true; 
+    this.isLoading = true;
     const search = this.searchQuery.trim();
-  
-    // If there's a new search term and it's different from the previous one, reset to the first page
-    if (search !== this.previousSearch) {
-      this.page = 1; // Reset to the first page only for a new search term
-      this.previousSearch = search;
+
+    if (search) {
+      // Si on commence une nouvelle recherche, on sauvegarde la page actuelle
+      if (this.pageBeforeSearch === null) {
+        this.pageBeforeSearch = this.paginator.pageIndex;
+      }
+      this.page = 1;
+      this.paginator.pageIndex = 0; // Réinitialisation de l'index du pagineur
+    } else {
+      // Si la barre de recherche est vidée, on revient à la page sauvegardée
+      if (this.pageBeforeSearch !== null) {
+        this.page = this.pageBeforeSearch + 1; // +1 car paginator.pageIndex est à base 0
+        this.paginator.pageIndex = this.pageBeforeSearch; // On met à jour l'index du pagineur
+        this.pageBeforeSearch = null;
+      }
     }
-  
+    this.previousSearch = search;
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
@@ -111,7 +123,13 @@ export class AssignmentsComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalDocs / this.limit);
           this.assignments.sort = this.sort;
           this.sort.disableClear = true;
-  
+          if (search) {
+            // If in a search, reset paginator to the first page
+            this.paginator.pageIndex = 0;
+          } else if (this.pageBeforeSearch !== null) {
+            // If search was cleared, set paginator to the saved page
+            this.paginator.pageIndex = this.page - 1;
+          }
           // If a new search term is entered, update the paginator's pageIndex to 0
           if (this.page === 1) {
             this.paginator.pageIndex = 0;
@@ -127,12 +145,13 @@ export class AssignmentsComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
-    const newPageIndex = event.pageIndex + 1; // Material paginator is zero-based, so add 1 for consistency with your page numbering
-    if (newPageIndex !== this.page) {
-      this.page = newPageIndex;
-      this.searchAssignments(); // This will retain the current search term and fetch the relevant page
-    }
+    // L'utilisateur change la page via le pagineur
+    const newPageIndex = event.pageIndex;
+    this.pageBeforeSearch = null; // On oublie la page de recherche sauvegardée
+    this.page = newPageIndex + 1; // +1 car paginator.pageIndex est à base 0
+    this.searchAssignments();
   }
+
 
   peuplerBD() {
     this.assignmentService.peuplerBDavecForkJoin()
