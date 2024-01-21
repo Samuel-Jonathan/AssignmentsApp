@@ -33,7 +33,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AccountComponent } from './login/account/account.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -41,7 +43,8 @@ const routes: Routes = [
   { path: 'add', component: AddAssignmentComponent },
   { path: 'assignment/:id', component: AssignmentDetailComponent },
   { path: 'assignment/:id/edit', component: EditAssignmentComponent, canActivate: [authGuard] },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'account', component: AccountComponent }
 ];
 
 export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
@@ -58,8 +61,8 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     AppComponent,
     AssignmentsComponent,
     RenduDirective,
-    NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent, 
-    EditAssignmentComponent, LoginComponent
+    NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent,
+    EditAssignmentComponent, LoginComponent, AccountComponent
   ],
   imports: [
     JwtModule.forRoot({
@@ -92,7 +95,8 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     MatPaginatorModule,
     MatSortModule,
     MatStepperModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },
