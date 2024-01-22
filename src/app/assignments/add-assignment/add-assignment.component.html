@@ -29,8 +29,14 @@
           <mat-option *ngFor="let student of students" [value]="student.id">{{ student.first_name }}</mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label for="note">Note</mat-label>
+        <mat-select [(ngModel)]="selectedNote" name="note" id="note">
+          <mat-option *ngFor="let i of notes" [value]="i">{{ i }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Commentaire" [(ngModel)]="comment" name="comment"></textarea>
+      </mat-form-field>
       <button mat-stroked-button color="primary" (click)="onSubmit()">Ajouter un devoir</button>
       <button mat-button color="warn" (click)="previousStep(stepper)">Retour</button>
-    </form>
-  </mat-step>
-</mat-horizontal-stepper>
