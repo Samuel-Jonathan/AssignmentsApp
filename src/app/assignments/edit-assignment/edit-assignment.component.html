@@ -1,9 +1,7 @@
 <mat-horizontal-stepper [linear]="true" #stepper>
-    <!-- Étape 1 -->
     <mat-step>
       <ng-template matStepLabel>Étape 1</ng-template>
       <form #formStep1="ngForm">
-        <!-- Vos champs pour la première étape ici -->
         <mat-form-field>
           <input matInput placeholder="Édition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
         </mat-form-field>
@@ -15,16 +13,9 @@
         <button mat-raised-button color="primary" (click)="nextStep(stepper, formStep1)">Suivant</button>
       </form>
     </mat-step>
-  
-    <!-- Étape 2 -->
     <mat-step>
       <ng-template matStepLabel>Étape 2</ng-template>
       <form #formStep2="ngForm">
-        <!-- Vos champs pour la deuxième étape ici -->
-        <!-- Par exemple, si vous souhaitez éditer d'autres informations de l'Assignment -->
-        <!-- <mat-form-field>
-          <input matInput placeholder="Autre champ" [(ngModel)]="autreChamp" name="autre-champ">
-        </mat-form-field> -->
         <button mat-raised-button color="primary" (click)="onSaveAssignment(); formStep2.reset();">Sauver</button>
         <button mat-button color="warn" (click)="previousStep(stepper)">Retour</button>
       </form>

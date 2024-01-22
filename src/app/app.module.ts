@@ -38,7 +38,7 @@ import { AccountComponent } from './login/account/account.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-
+import { MatDialog } from '@angular/material/dialog';
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -102,7 +102,7 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    CommonModule
+    CommonModule,MatDialog
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },

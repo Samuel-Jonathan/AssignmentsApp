@@ -12,7 +12,9 @@ import { AuthService } from 'src/app/shared/auth.service';
 export class AssignmentDetailComponent implements OnInit {
   assignementTransmis!: Assignment | null;
 
-  constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
+  constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute, 
+    private router: Router, private authService: AuthService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAssignments();
