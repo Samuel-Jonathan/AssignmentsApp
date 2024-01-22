@@ -59,11 +59,13 @@ export class AddAssignmentComponent implements OnInit {
       newAssignment.subjectId = this.selectedSubjectId;
     }
 
-    const newAssignmentId = Math.floor(Math.random() * 1000);
+    if (this.selectedStudentId !== undefined) {
+      newAssignment.studentId = this.selectedStudentId;
+    }
 
-    newAssignment.id = newAssignmentId;
     newAssignment.nom = this.nomDevoir;
     newAssignment.dateDeRendu = this.dateRendu;
+
 
     this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
   };

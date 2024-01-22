@@ -1,9 +1,7 @@
 <mat-horizontal-stepper [linear]="true" #stepper>
-  <!-- Étape 1 -->
   <mat-step>
     <ng-template matStepLabel>Étape 1</ng-template>
     <form #assignmentForm1="ngForm">
-      <!-- Vos champs pour la première étape ici -->
       <mat-form-field>
         <input matInput [matDatepicker]="picker" placeholder="Date de rendu" [(ngModel)]="dateRendu" name="date">
       </mat-form-field>
@@ -16,11 +14,9 @@
     </form>
   </mat-step>
 
-  <!-- Étape 2 -->
   <mat-step>
     <ng-template matStepLabel>Étape 2</ng-template>
     <form #assignmentForm2="ngForm">
-      <!-- Vos champs pour la deuxième étape ici -->
       <mat-form-field>
         <mat-label for="subject">Sujet</mat-label>
         <mat-select [(ngModel)]="selectedSubjectId" name="subject" id="subject">

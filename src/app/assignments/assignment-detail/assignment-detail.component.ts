@@ -3,6 +3,8 @@ import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -12,7 +14,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 export class AssignmentDetailComponent implements OnInit {
   assignementTransmis!: Assignment | null;
 
-  constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute, 
+  constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute,
     private router: Router, private authService: AuthService,
     private dialog: MatDialog) { }
 
@@ -47,6 +49,19 @@ export class AssignmentDetailComponent implements OnInit {
           this.router.navigate(["/home"]);
         })
     }
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Voulez-vous vraiment supprimer ce devoir ?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.onDelete();
+      }
+    });
   }
 
   onClickEdit() {

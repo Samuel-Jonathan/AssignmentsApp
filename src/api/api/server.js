@@ -111,7 +111,7 @@ function authenticateToken(req, res, next) {
 }
 
 app.route(prefix + '/assignments/all')
-   .get(assignment.getAllAssignments)
+  .get(assignment.getAllAssignments)
 
 // Routes pour /api/assignments avec authentification
 app.route(prefix + '/assignments')

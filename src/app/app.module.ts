@@ -38,7 +38,9 @@ import { AccountComponent } from './login/account/account.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './assignments/assignment-detail/confirmation-dialog/confirmation-dialog.component';
+
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -65,7 +67,7 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     AssignmentsComponent,
     RenduDirective,
     NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent,
-    EditAssignmentComponent, LoginComponent, AccountComponent
+    EditAssignmentComponent, LoginComponent, AccountComponent, ConfirmationDialogComponent
   ],
   imports: [
     JwtModule.forRoot({
@@ -102,7 +104,7 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    CommonModule,MatDialog
+    CommonModule,MatDialogModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },

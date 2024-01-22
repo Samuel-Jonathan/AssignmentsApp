@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, switchMap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { bdInitialAssignments } from '../shared/data';
 import { AuthService } from './auth.service';
@@ -40,9 +40,17 @@ export class AssignmentsService {
     if (!this.authService.isAuthenticated()) {
       return new Observable<Assignment | undefined>();
     }
-
-    return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
+  
+    return this.http.get<Assignment[]>(this.url + "/all?sortBy=id:desc").pipe(
+      switchMap(assignments => {
+        const lastAssignment = assignments.length > 0 ? assignments[0] : null;
+        const newId = lastAssignment ? lastAssignment.id + 1 : 1;
+        assignment.id = newId;
+        return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
+      })
+    );
   }
+  
 
   updateAssignment(assignment: Assignment): Observable<any> {
     if (!this.authService.isAuthenticated()) {
@@ -58,7 +66,7 @@ export class AssignmentsService {
     let deleteURI = this.url + '/' + assignment._id;
     return this.http.delete(deleteURI, this.getHttpOptions());
   }
-
+  
   peuplerBDavecForkJoin() {
     let appelsVersAddAssignments: Observable<any>[] = [];
 

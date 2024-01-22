@@ -4,11 +4,11 @@ function getAssignments(req, res) {
     const options = {
         page: parseInt(req.query.page, 10) || 1,
         limit: parseInt(req.query.limit, 10) || 10,
-        sort: { nom: 1 } 
+        sort: { nom: 1 }
     };
 
     let aggregateQuery = Assignment.aggregate();
-    
+
     if (req.query.search) {
         aggregateQuery = aggregateQuery.match({
             nom: { $regex: '^' + req.query.search, $options: 'i' }
@@ -34,7 +34,7 @@ function getAssignments(req, res) {
     });
 
     aggregateQuery = aggregateQuery.sort({
-        nom: 1 
+        nom: 1
     }).project({
         _id: 1,
         id: 1,
@@ -173,7 +173,5 @@ function getAllAssignments(req, res) {
         }
     });
 }
-
-
 
 module.exports = { getAllAssignments, getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };
