@@ -15,7 +15,7 @@
         </div>
         <label for="role">Rôle :</label>
         <div>
-            <input type="radio" id="admin" name="role" value="admin" [(ngModel)]="role" required>
+            <input type="radio" id="admin" name="role" value="admin" [(ngModel)]="role" required [checked]="role === 'admin'">
             <label for="admin">Admin</label>
         </div>
 

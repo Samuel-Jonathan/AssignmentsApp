@@ -14,13 +14,13 @@ export class LoginComponent implements OnInit {
   username!: string;
   password!: string;
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
+  constructor(private authService: AuthService, private router: Router, 
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    // Vérifier si les champs username et password sont remplis
     if (!this.username || !this.password) {
       this.toastr.error("Tous les champs sont obligatoires !");
       return;

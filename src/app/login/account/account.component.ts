@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
@@ -15,28 +16,33 @@ export class AccountComponent {
   confirmPassword!: string;
   role!: string;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,
+    private toastr: ToastrService) { }
+
+  ngOnInit() {
+    this.role = 'admin';
+  }
 
   register() {
     if (!this.username || !this.password || !this.confirmPassword || !this.role) {
-      alert("Tous les champs sont obligatoires.");
+      this.toastr.error("Tous les champs sont obligatoires.");
       return;
     }
-  
+
     if (this.password !== this.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas.");
+      this.toastr.error("Les mots de passe ne correspondent pas.");
       return;
     }
-  
+
     if (this.password.length < 8) {
-      alert("Le mot de passe doit posséder au moins 8 caractères.");
+      this.toastr.error("Le mot de passe doit posséder au moins 8 caractères.");
       return;
     }
-  
+
     this.authService.getUser(this.username).subscribe(
       (user) => {
         if (user) {
-          alert("Un compte avec ce nom d'utilisateur existe déjà.");
+          this.toastr.error("Un compte avec ce nom d'utilisateur existe déjà.");
         } else {
           this.createAccount();
           this.router.navigate(['/home']);
@@ -48,27 +54,24 @@ export class AccountComponent {
           this.router.navigate(['/home']);
         } else {
           console.error("Erreur lors de la récupération de l'utilisateur :", error);
-          alert("Il y a eu un problème lors de la vérification de votre nom d'utilisateur. Veuillez réessayer.");
         }
       }
     );
   }
-  
+
   createAccount() {
     this.authService.register(this.username, this.password, this.role)
-    .subscribe(
-      (response) => {
-        console.log("User créé avec succès. Connexion en cours...");
-      },
-      (error) => {
-        if (error.status === 201) {
-          console.log("User créé avec succès. Connexion en cours...");
-        } else {
-          console.error("Erreur lors de la création de l'utilisateur :", error);
-          alert("Il y a eu un problème lors de la création de votre compte. Veuillez réessayer.");
+      .subscribe(
+        (response) => {
+          this.toastr.success(this.username + " créé avec succès.");
+        },
+        (error) => {
+          if (error.status === 201) {
+            this.toastr.success(this.username + " créé avec succès.");
+          } else {
+            console.error("Erreur lors de la création de l'utilisateur :", error);
+          }
         }
-      }
-    );
-  
+      );
   }
 }
