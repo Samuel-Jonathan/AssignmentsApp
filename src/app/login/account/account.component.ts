@@ -39,11 +39,13 @@ export class AccountComponent {
           alert("Un compte avec ce nom d'utilisateur existe déjà.");
         } else {
           this.createAccount();
+          this.router.navigate(['/home']);
         }
       },
       (error) => {
         if (error.status === 404) {
           this.createAccount();
+          this.router.navigate(['/home']);
         } else {
           console.error("Erreur lors de la récupération de l'utilisateur :", error);
           alert("Il y a eu un problème lors de la vérification de votre nom d'utilisateur. Veuillez réessayer.");
@@ -57,12 +59,10 @@ export class AccountComponent {
     .subscribe(
       (response) => {
         console.log("User créé avec succès. Connexion en cours...");
-        this.loginAfterRegister();
       },
       (error) => {
         if (error.status === 201) {
           console.log("User créé avec succès. Connexion en cours...");
-          this.loginAfterRegister();
         } else {
           console.error("Erreur lors de la création de l'utilisateur :", error);
           alert("Il y a eu un problème lors de la création de votre compte. Veuillez réessayer.");
@@ -71,25 +71,4 @@ export class AccountComponent {
     );
   
   }
-  
-  loginAfterRegister() {
-    this.authService.getUser(this.username).subscribe(
-      (response) => {
-        const role = response.role;
-        if(role){
-          const user = this.authService.login(this.username, this.password, role);
-          user.subscribe(
-            (loginResponse) => {
-              if (loginResponse.token) {
-                sessionStorage.setItem('access_token', loginResponse.token);
-                this.router.navigate(['/home']);
-              }
-            },
-          );
-        }
-      },
-    );
-  }
-  
-  
 }
