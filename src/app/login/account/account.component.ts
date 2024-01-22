@@ -18,44 +18,78 @@ export class AccountComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   register() {
+    if (!this.username || !this.password || !this.confirmPassword || !this.role) {
+      alert("Tous les champs sont obligatoires.");
+      return;
+    }
+  
     if (this.password !== this.confirmPassword) {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }
-
+  
     if (this.password.length < 8) {
-      alert("Le mot de passe doit posséder au moins 8 caractères");
+      alert("Le mot de passe doit posséder au moins 8 caractères.");
       return;
     }
-
-    // Vérifier d'abord si l'utilisateur existe
+  
     this.authService.getUser(this.username).subscribe(
-      () => {
-        // Si cette ligne est exécutée, cela signifie que l'utilisateur existe déjà
-        alert("Un compte avec ce nom d'utilisateur existe déjà.");
+      (user) => {
+        if (user) {
+          alert("Un compte avec ce nom d'utilisateur existe déjà.");
+        } else {
+          this.createAccount();
+        }
       },
       (error) => {
-        // Si une erreur est retournée, dans ce cas un utilisateur non trouvé (404), tenter de créer un nouveau compte
         if (error.status === 404) {
-          this.authService.register(this.username, this.password, this.role)
-            .subscribe(
-              () => {
-                console.log("User créé avec succès.");
-                this.router.navigate(['/home']);
-              },
-              (registerError) => {
-                // Gérer l'erreur d'enregistrement ici
-                console.error("Erreur lors de la création de l'utilisateur :", registerError);
-                alert("Il y a eu un problème lors de la création de votre compte. Veuillez réessayer.");
-              }
-            );
+          this.createAccount();
         } else {
-          // Gérer d'autres types d'erreurs ici (par exemple, erreur de serveur)
           console.error("Erreur lors de la récupération de l'utilisateur :", error);
           alert("Il y a eu un problème lors de la vérification de votre nom d'utilisateur. Veuillez réessayer.");
         }
       }
     );
   }
-
+  
+  createAccount() {
+    this.authService.register(this.username, this.password, this.role)
+    .subscribe(
+      (response) => {
+        console.log("User créé avec succès. Connexion en cours...");
+        this.loginAfterRegister();
+      },
+      (error) => {
+        if (error.status === 201) {
+          console.log("User créé avec succès. Connexion en cours...");
+          this.loginAfterRegister();
+        } else {
+          console.error("Erreur lors de la création de l'utilisateur :", error);
+          alert("Il y a eu un problème lors de la création de votre compte. Veuillez réessayer.");
+        }
+      }
+    );
+  
+  }
+  
+  loginAfterRegister() {
+    this.authService.getUser(this.username).subscribe(
+      (response) => {
+        const role = response.role;
+        if(role){
+          const user = this.authService.login(this.username, this.password, role);
+          user.subscribe(
+            (loginResponse) => {
+              if (loginResponse.token) {
+                sessionStorage.setItem('access_token', loginResponse.token);
+                this.router.navigate(['/home']);
+              }
+            },
+          );
+        }
+      },
+    );
+  }
+  
+  
 }

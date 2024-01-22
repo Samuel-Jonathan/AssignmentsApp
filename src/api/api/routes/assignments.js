@@ -4,20 +4,17 @@ function getAssignments(req, res) {
     const options = {
         page: parseInt(req.query.page, 10) || 1,
         limit: parseInt(req.query.limit, 10) || 10,
-        // Ajout de l'option de tri dans les options de pagination
-        sort: { nom: 1 } // Tri par 'nom' dans l'ordre ascendant
+        sort: { nom: 1 } 
     };
 
     let aggregateQuery = Assignment.aggregate();
     
-    // Ajout d'une étape de match si un terme de recherche est spécifié
     if (req.query.search) {
         aggregateQuery = aggregateQuery.match({
             nom: { $regex: '^' + req.query.search, $options: 'i' }
         });
     }
 
-    // Continuation de la construction de la requête d'agrégation
     aggregateQuery = aggregateQuery.lookup({
         from: 'students',
         localField: 'studentId',
@@ -36,9 +33,8 @@ function getAssignments(req, res) {
         preserveNullAndEmptyArrays: true
     });
 
-    // Ajout d'une étape de tri avant la projection
     aggregateQuery = aggregateQuery.sort({
-        nom: 1 // Tri par 'nom' dans l'ordre ascendant
+        nom: 1 
     }).project({
         _id: 1,
         id: 1,
@@ -56,7 +52,6 @@ function getAssignments(req, res) {
         imgTeacher: '$subjectDetails.imgTeacher'
     });
 
-    // Exécution de la requête d'agrégation avec pagination
     Assignment.aggregatePaginate(aggregateQuery, options, (err, result) => {
         if (err) {
             res.status(500).send(err);

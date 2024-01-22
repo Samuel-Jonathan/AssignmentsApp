@@ -8,8 +8,8 @@
     <a routerLink="/home"><button mat-button
         style="background-color: white; margin-right: 10px"><mat-icon>home</mat-icon></button></a>
     <a routerLink="/login"><button mat-button style="background-color: white;"
-        *ngIf="!authService.isAdmin()"><mat-icon>account_circle</mat-icon></button></a>
-    <a routerLink="/home"><button mat-button style="background-color: white;" *ngIf="authService.isAdmin()"
+        *ngIf="!authService.isAuthenticated()"><mat-icon>account_circle</mat-icon></button></a>
+    <a routerLink="/home"><button mat-button style="background-color: white;" *ngIf="authService.isAuthenticated()"
         (click)="logout()"><mat-icon>reply</mat-icon></button></a>
   </mat-toolbar-row>
 </mat-toolbar>
