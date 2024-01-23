@@ -1,15 +1,16 @@
-<main class="container">
+<body>
+  <main class="container">
   <div class="search-container">
     <mat-form-field class="search-field">
-      <input matInput placeholder="Rechercher par nom d'assignment" [(ngModel)]="searchQuery"
+      <input matInput placeholder="Rechercher par le nom du devoir" [(ngModel)]="searchQuery"
         (keyup)="searchAssignments()" name="search">
     </mat-form-field>
     <button mat-icon-button aria-label="Rechercher" (click)="searchAssignments()">
       <mat-icon>search</mat-icon>
     </button>
   </div>
-  <div class="filter-container">
-    <mat-checkbox [(ngModel)]="renduFilter" (change)="applyRenduFilter()">Afficher seulement les rendus</mat-checkbox>
+  <div class="filter-container" >
+    <mat-checkbox [(ngModel)]="renduFilter" (change)="applyRenduFilter()" style="color: aliceblue;">Afficher les rendus uniquement</mat-checkbox>
   </div>
   
   <table mat-table [dataSource]="getDataSource()" matSort matSortActive="nom" matSortDirection="asc">
@@ -25,7 +26,7 @@
     </ng-container>
 
     <ng-container matColumnDef="studentName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom de l'Étudiant</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom de l'étudiant</th>
       <td mat-cell *matCellDef="let assignment">{{ assignment.studentName }}</td>
     </ng-container>
 
@@ -54,5 +55,6 @@
   <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons
     (page)="onLimitResult($event)" (page)="onPageChange($event)"></mat-paginator>
 
-  <button (click)="peuplerBD()">Add Assignments in database</button>
+  <button (click)="peuplerBD()">Ajouter les devoirs à la base de données</button>
 </main>
+</body>

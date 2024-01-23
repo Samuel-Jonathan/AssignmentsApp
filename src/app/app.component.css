@@ -1,5 +1,11 @@
 mat-toolbar {
-    background-color: rgb(31, 31, 31);
+    background-color: #3B3B39;
+}
+
+mat-icon {
+    color: aliceblue;
+    size: 2rem;
+    /* je n'arrive pas à changer la taille?? */
 }
 
 .login {
@@ -11,16 +17,38 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-    width: 200px;
-    background-color: white;
+    width: 400px;
+    background-color: #217B8A;
+    padding-left: 50px;
+    padding-top: 10px;
+    margin: 10px;
+
+
+}
+
+mat-list-item {
+    margin: 20px;
+    color: aliceblue;
+}
+
+mat-list-item:hover {
+    background-color: aliceblue;
+    color: #217B8A;
+    width: 100;
+
 }
 
 mat-sidenav-content {
     padding-left: 50px;
     padding-top: 10px;
+
 }
 
 mat-slide-toggle {
     color: white;
     padding: 15px;
+}
+
+mat-nav-list {
+    color: aliceblue;
 }

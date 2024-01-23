@@ -1,22 +1,44 @@
-<h1>
+<!-- <h1>
   <nav>{{title}}</nav>
-</h1>
+</h1> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@angular/material/prebuilt-themes/indigo-pink.css">
+
+</head>
+<body>
+
 <mat-toolbar>
-  <mat-toolbar-row>
-    <button mat-button (click)="opened=!opened" style="background-color: white;"><mat-icon>menu</mat-icon></button>
-    <span class="login"></span>
-    <a routerLink="/home"><button mat-button
-        style="background-color: white; margin-right: 10px"><mat-icon>home</mat-icon></button></a>
-    <a routerLink="/login"><button mat-button style="background-color: white;"
-        *ngIf="!authService.isAdmin()"><mat-icon>account_circle</mat-icon></button></a>
-    <a routerLink="/home"><button mat-button style="background-color: white;" *ngIf="authService.isAdmin()"
-        (click)="logout()"><mat-icon>reply</mat-icon></button></a>
-  </mat-toolbar-row>
+<mat-toolbar-row>
+  <button mat-button (click)="opened=!opened">
+      <mat-icon>menu</mat-icon>
+  </button>
+  <span class="login"></span>
+  <a routerLink="/home">
+      <button mat-button>
+          <mat-icon>home</mat-icon>
+      </button>
+  </a>
+  <a routerLink="/login" *ngIf="!authService.isAdmin()">
+      <button mat-button>
+          <mat-icon>account_circle</mat-icon>
+      </button>
+  </a>
+  <a routerLink="/home" *ngIf="authService.isAdmin()" (click)="logout()">
+      <button mat-button>
+          <mat-icon>reply</mat-icon>
+      </button>
+  </a>
+</mat-toolbar-row>
 </mat-toolbar>
+
 <mat-sidenav-container>
   <mat-sidenav [(opened)]="opened" mode="side">
     <mat-nav-list>
-      <a routerLink="/home"><mat-list-item>Liste des devoirs</mat-list-item></a>
+      <a routerLink="/home"><mat-list-item >Liste des devoirs</mat-list-item></a>
       <a routerLink="/add"><mat-list-item>Ajout d'un devoir</mat-list-item></a>
       <mat-list-item>Modification d'un devoir</mat-list-item>
       <mat-list-item>Suppression d'un devoir</mat-list-item>
@@ -25,3 +47,4 @@
   </mat-sidenav>
   <router-outlet></router-outlet>
 </mat-sidenav-container>
+</body> 
