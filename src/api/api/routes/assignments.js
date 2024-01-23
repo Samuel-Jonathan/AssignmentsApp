@@ -99,7 +99,7 @@ function getAssignment(req, res) {
                 dateDeRendu: 1,
                 nom: 1,
                 rendu: 1,
-                subject: 1,
+                subjectId: 1,
                 studentId: 1,
                 subjectName: '$subjectDetails.name',
                 subjectTeacher: '$subjectDetails.teacher',

@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-assignment.component.css']
 })
 export class AddAssignmentComponent implements OnInit {
+  id!: number;
   nomDevoir!: string;
   dateRendu!: Date;
   subjects: Subject[] = [];
@@ -61,6 +62,7 @@ export class AddAssignmentComponent implements OnInit {
   onSubmit() {
     const newAssignment = new Assignment();
 
+    newAssignment.id = this.id;
     newAssignment.nom = this.nomDevoir;
     newAssignment.dateDeRendu = this.dateRendu;
     newAssignment.subjectId = this.selectedSubjectId;

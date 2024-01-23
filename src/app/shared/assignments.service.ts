@@ -43,12 +43,18 @@ export class AssignmentsService {
   
     return this.http.get<Assignment[]>(this.url + "/all?sortBy=id:desc").pipe(
       switchMap(assignments => {
-        const lastAssignment = assignments.length > 0 ? assignments[0] : null;
-        const newId = lastAssignment ? lastAssignment.id + 1 : 1;
-        assignment.id = newId;
+        const newId = assignments.length + 1; 
+        assignment.id = newId;        
         return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
       })
     );
+  }
+
+  addAllAssignments(assignment: Assignment): Observable<any> {
+    if (!this.authService.isAuthenticated()) {
+      return new Observable<Assignment | undefined>();
+    }
+    return this.http.post<Assignment>(this.url, assignment, this.getHttpOptions());
   }
   
 
@@ -81,7 +87,7 @@ export class AssignmentsService {
       nouvelAssignment.note = a.note;
       nouvelAssignment.comment = a.comment;
 
-      appelsVersAddAssignments.push(this.addAssignment(nouvelAssignment))
+      appelsVersAddAssignments.push(this.addAllAssignments(nouvelAssignment))
     });
     return forkJoin(appelsVersAddAssignments);
   }
