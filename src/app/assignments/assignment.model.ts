@@ -4,7 +4,7 @@ export class Assignment {
     nom !: string;
     dateDeRendu !: Date;
     rendu?: boolean;
-    studentId!: Number;
+    studentId!: number;
     studentName?: string;
     subjectId!: number;
     subjectName!: string;

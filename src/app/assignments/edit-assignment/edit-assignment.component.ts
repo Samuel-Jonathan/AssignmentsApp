@@ -19,8 +19,8 @@ export class EditAssignmentComponent implements OnInit {
   dateDeRendu!: Date;
   subjects: Subject[] = [];
   students: Student[] = [];
-  selectedSubject!: string;
-  selectedStudent!: string | undefined;
+  selectedSubject!: number;
+  selectedStudent!: number;
   subject!: number;
   student!: number;
   selectedNote!: number;
@@ -70,10 +70,8 @@ export class EditAssignmentComponent implements OnInit {
       this.assignment = assignment;
       this.nomAssignment = this.assignment?.nom;
       this.dateDeRendu = this.assignment?.dateDeRendu;
-      this.selectedSubject = this.assignment?.subjectName;
-      this.selectedStudent = this.assignment?.studentName; 
-      this.subject = this.assignment.subjectId;
-      this.student != this.assignment.studentId;  
+      this.selectedSubject = this.assignment.subjectId;
+      this.selectedStudent != this.assignment.studentId;
       this.selectedNote = this.assignment?.note;
       this.comment = this.assignment?.comment;
     });
@@ -83,7 +81,11 @@ export class EditAssignmentComponent implements OnInit {
     if (!this.assignment) return;
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
-
+    this.assignment.note = this.selectedNote;
+    this.assignment.comment = this.comment;
+    this.assignment.subjectId = this.selectedSubject;
+    this.assignment.studentId = this.selectedStudent;
+    
     this.assignmentsService.updateAssignment(this.assignment).subscribe(() => {
       this.router.navigate(['/home']);
     });
