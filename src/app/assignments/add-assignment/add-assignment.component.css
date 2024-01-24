@@ -7,7 +7,7 @@
 }
 
 body {
-  background: url("lucioles.jpg") no-repeat center center fixed;
+  background: url("../../../assets/lucioles.jpg") no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -88,4 +88,12 @@ button {
 button:hover {
   background-color: rgb(64, 64, 224);
   color: aliceblue;
+}
+
+.stepper-container {
+  position: relative; /* ou 'absolute' si nécessaire */
+  max-width: 900px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
 }
