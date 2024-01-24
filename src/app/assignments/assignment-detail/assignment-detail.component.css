@@ -1,5 +1,40 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+mat-card {
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+
+mat-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+mat-card-subtitle {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
 #bottom {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+button {
+    margin-left: 10px;
+}
+
+mat-checkbox {
+    margin-right: 10px;
 }

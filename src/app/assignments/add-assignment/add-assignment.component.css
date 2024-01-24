@@ -16,7 +16,6 @@ form {
   flex-direction: column;
   max-width: 900px;
   margin: auto;
-  height: 100%;
   width: 1000px;
   background-color: rgba(255, 255, 255, 0.13);
   position: absolute;
@@ -29,13 +28,15 @@ form {
   box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
   padding: 50px 35px;
 }
+
 form * {
   font-family: 'Poppins', sans-serif;
-  color: #ffffff;
+ 
   letter-spacing: 0.5px;
   outline: none;
   border: none;
 }
+
 form h3 {
   font-size: 32px;
   font-weight: 500;
@@ -50,15 +51,14 @@ form h3 {
 }
 
 mat-datepicker {
-  color:  #217B8A;
-
+  color: #217B8A;
 }
 
 .mat-datepicker-toggle {
   color: #217B8A;
 }
 
-input{
+input {
   display: block;
   height: 50px;
   width: 100%;
@@ -70,9 +70,8 @@ input{
   font-weight: 300;
 
 }
-::placeholder {
-  color: #e5e5e5;
-}
+
+
 button {
   margin-top: 50px;
   width: 100%;
@@ -90,10 +89,6 @@ button:hover {
   color: aliceblue;
 }
 
-.stepper-container {
-  position: relative; /* ou 'absolute' si nécessaire */
-  max-width: 900px;
-  margin: auto;
-  top: 50%;
-  transform: translateY(-50%);
+mat-form-field {
+  padding: 20px;
 }
