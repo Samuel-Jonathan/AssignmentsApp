@@ -3,8 +3,7 @@ let Assignment = require('../model/assignment');
 function getAssignments(req, res) {
     const options = {
         page: parseInt(req.query.page, 10) || 1,
-        limit: parseInt(req.query.limit, 10) || 10,
-        sort: { nom: 1 }
+        limit: parseInt(req.query.limit, 10) || 10
     };
 
     let aggregateQuery = Assignment.aggregate();
@@ -33,9 +32,7 @@ function getAssignments(req, res) {
         preserveNullAndEmptyArrays: true
     });
 
-    aggregateQuery = aggregateQuery.sort({
-        nom: 1
-    }).project({
+    aggregateQuery = aggregateQuery.project({
         _id: 1,
         id: 1,
         studentName: {
