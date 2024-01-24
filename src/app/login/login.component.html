@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-</head>
 <body>
-  
-    <form (ngSubmit)="login()">
-        <h3>Connexion</h3>
+    <div class="container">
+        <form (ngSubmit)="login()">
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" name="username" [(ngModel)]="username" required>
 
-        <label for="username">Nom d'utilisateur</label>
-        <input placeholder="Entrez votre nom d'utilisateur" type="text" id="username" name="username" [(ngModel)]="username" required>
-
-        <label for="password">Mot de passe</label>
-        <input placeholder="Entrez votre mot de passe" type="password" id="password" name="password" [(ngModel)]="password" required>
-
-        <button>Se connecter</button>
-        
-    </form>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" [(ngModel)]="password" required>
+            <button type="submit">Se connecter</button>
+            <nav>
+                <a routerLink="/account">Crée un compte</a>
+            </nav>
+        </form>
+    </div>
 </body>
-</html>
