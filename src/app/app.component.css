@@ -21,9 +21,6 @@ mat-sidenav {
     background-color: #217B8A;
     padding-left: 50px;
     padding-top: 10px;
-    /* margin: 10px; */
-
-
 }
 
 mat-list-item {
@@ -52,3 +49,8 @@ mat-slide-toggle {
 mat-nav-list {
     color: aliceblue;
 }
+
+button:hover{
+    background-color: #717171;
+}
+

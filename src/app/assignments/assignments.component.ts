@@ -77,7 +77,7 @@ export class AssignmentsComponent implements OnInit {
           data => {
             this.assignments.data = data.docs;
             this.totalDocs = data.totalDocs;
-            this.totalPages = Math.ceil(this.totalDocs / this.limit); // Calcul du nombre total de pages en fonction du nombre total de résultats et du nombre de résultats par page
+            this.totalPages = Math.ceil(this.totalDocs / this.limit); 
             this.nextPage = data.nextPage;
             this.prevPage = data.prevPage;
             this.hasPrevPage = data.hasPrevPage;
@@ -90,7 +90,7 @@ export class AssignmentsComponent implements OnInit {
     } else {
       this.assignments.data = this.filteredAssignments.data;
       this.totalDocs = this.filteredAssignments.data.length;
-      this.totalPages = Math.ceil(this.totalDocs / this.limit); // Calcul du nombre total de pages en fonction du nombre total de résultats et du nombre de résultats par page
+      this.totalPages = Math.ceil(this.totalDocs / this.limit); 
       this.nextPage = 1;
       this.prevPage = 1;
       this.hasPrevPage = false;
@@ -105,17 +105,15 @@ export class AssignmentsComponent implements OnInit {
     const search = this.searchQuery.trim();
 
     if (search) {
-      // Si on commence une nouvelle recherche, on sauvegarde la page actuelle
       if (this.pageBeforeSearch === null) {
         this.pageBeforeSearch = this.paginator.pageIndex;
       }
       this.page = 1;
-      this.paginator.pageIndex = 0; // Réinitialisation de l'index du pagineur
+      this.paginator.pageIndex = 0;
     } else {
-      // Si la barre de recherche est vidée, on revient à la page sauvegardée
       if (this.pageBeforeSearch !== null) {
-        this.page = this.pageBeforeSearch + 1; // +1 car paginator.pageIndex est à base 0
-        this.paginator.pageIndex = this.pageBeforeSearch; // On met à jour l'index du pagineur
+        this.page = this.pageBeforeSearch + 1; 
+        this.paginator.pageIndex = this.pageBeforeSearch; 
         this.pageBeforeSearch = null;
       }
     }
@@ -131,13 +129,10 @@ export class AssignmentsComponent implements OnInit {
           this.assignments.sort = this.sort;
           this.sort.disableClear = true;
           if (search) {
-            // If in a search, reset paginator to the first page
             this.paginator.pageIndex = 0;
           } else if (this.pageBeforeSearch !== null) {
-            // If search was cleared, set paginator to the saved page
             this.paginator.pageIndex = this.page - 1;
           }
-          // If a new search term is entered, update the paginator's pageIndex to 0
           if (this.page === 1) {
             this.paginator.pageIndex = 0;
           }
@@ -152,19 +147,9 @@ export class AssignmentsComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
-    // L'utilisateur change la page via le pagineur
     const newPageIndex = event.pageIndex;
-    this.pageBeforeSearch = null; // On oublie la page de recherche sauvegardée
-    this.page = newPageIndex + 1; // +1 car paginator.pageIndex est à base 0
+    this.pageBeforeSearch = null;
+    this.page = newPageIndex + 1;
     this.searchAssignments();
-  }
-
-
-  peuplerBD() {
-    this.assignmentService.peuplerBDavecForkJoin()
-      .subscribe(() => {
-        console.log("LA BD A ETE PEUPLEE, TOUS LES ASSIGNMENTS AJOUTES");
-        window.location.reload();
-      })
   }
 }
