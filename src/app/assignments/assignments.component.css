@@ -14,7 +14,8 @@ body {
     background-size: cover;
 
 }
-mat-checkbox{
+
+mat-checkbox {
     color: white;
 }
 
@@ -52,16 +53,34 @@ mat-checkbox{
     border-radius: 5px;
     display: flex;
     align-items: center;
-  }
-  
-  .filter-checkbox {
-    margin-right: 10px; 
-  }
-  
-  .filter-label {
+}
+
+.filter-checkbox {
+    border-color: white;
+    margin-right: 10px;
+}
+
+.filter-label {
     color: white;
+}
+
+/* Style du carré de la case à cocher (Angular Material) avec fond blanc */
+.mat-checkbox-frame {
+    background-color: white; /* Couleur de fond blanche */
   }
   
+  /* Style du carré de la case à cocher cochée (Angular Material) avec fond blanc */
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: white; /* Couleur de fond blanche */
+  }
+  
+  /* Style du carré de la case à cocher en état indéterminé (Angular Material) avec fond blanc */
+  .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: white; /* Couleur de fond blanche */
+  }
+  
+  
+
 
 table {
     width: 100%;
@@ -103,4 +122,3 @@ button:hover {
     background-color: rgb(64, 64, 224);
     color: aliceblue;
 }
-
