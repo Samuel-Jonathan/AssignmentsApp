@@ -25,24 +25,32 @@ export class AccountComponent {
 
   register() {
     if (!this.username || !this.password || !this.confirmPassword || !this.role) {
-      this.toastr.error("Tous les champs sont obligatoires.");
+      this.toastr.error("Tous les champs sont obligatoires.", '', {
+        positionClass: 'toast-bottom-right' 
+      });
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      this.toastr.error("Les mots de passe ne correspondent pas.");
+      this.toastr.error("Les mots de passe ne correspondent pas.", '', {
+        positionClass: 'toast-bottom-right' 
+      });
       return;
     }
 
     if (this.password.length < 8) {
-      this.toastr.error("Le mot de passe doit posséder au moins 8 caractères.");
+      this.toastr.error("Le mot de passe doit posséder au moins 8 caractères.", '', {
+        positionClass: 'toast-bottom-right' 
+      });
       return;
     }
 
     this.authService.getUser(this.username).subscribe(
       (user) => {
         if (user) {
-          this.toastr.error("Un compte avec ce nom d'utilisateur existe déjà.");
+          this.toastr.error("Un compte avec ce nom d'utilisateur existe déjà.", '', {
+            positionClass: 'toast-bottom-right' 
+          });
         } else {
           this.createAccount();
           this.router.navigate(['/home']);

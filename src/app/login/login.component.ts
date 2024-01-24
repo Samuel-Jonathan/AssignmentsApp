@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (!this.username || !this.password) {
-      this.toastr.error("Tous les champs sont obligatoires !");
+      this.toastr.error("Tous les champs sont obligatoires !", '', {
+        positionClass: 'toast-bottom-right' 
+      });
       return;
     }
   
@@ -30,7 +32,9 @@ export class LoginComponent implements OnInit {
       catchError((error) => {
         sessionStorage.removeItem("username");
         sessionStorage.removeItem("role");
-        this.toastr.error("Une erreur s'est produite lors de la récupération de l'utilisateur.");
+        this.toastr.error("Une erreur s'est produite lors de la récupération de l'utilisateur.", '', {
+          positionClass: 'toast-bottom-right' 
+        });
         return throwError(error);
       })
     ).subscribe(
@@ -39,7 +43,9 @@ export class LoginComponent implements OnInit {
         if (role) {
           const user = this.authService.login(this.username, this.password, role).pipe(
             catchError((loginError) => {
-              this.toastr.error("Connexion refusée ! Vérifier votre nom d'utilisateur et votre mot de passe.");
+              this.toastr.error("Connexion refusée ! Vérifier votre nom d'utilisateur et votre mot de passe.", '', {
+                positionClass: 'toast-bottom-right' 
+              });
               return throwError(loginError);
             })
           );
@@ -47,10 +53,12 @@ export class LoginComponent implements OnInit {
             (loginResponse) => {
               if (loginResponse.token) {
                 sessionStorage.setItem('access_token', loginResponse.token);
-                this.toastr.success('Connexion réussie !');
+                this.toastr.success('Connexion réussie !', '', {
+                  positionClass: 'toast-bottom-right' 
+                });
                 this.router.navigate(['/home']);
               }
-            },
+            }
           );
         }
       },

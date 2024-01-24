@@ -6,6 +6,7 @@ import { Subject } from '../subject.model';
 import { StudentsService } from 'src/app/shared/students.service';
 import { Student } from '../student.model';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-assignment',
@@ -29,7 +30,8 @@ export class AddAssignmentComponent implements OnInit {
     private assignmentsService: AssignmentsService,
     private subjectsService: SubjectsService,
     private studentsService: StudentsService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,9 @@ export class AddAssignmentComponent implements OnInit {
 
     this.assignmentsService.addAssignment(newAssignment).subscribe((message) => {
       console.log(message);
+      this.toastr.success("Le devoir a été ajouté !", '', {
+        positionClass: 'toast-bottom-right' 
+      });
       this.router.navigate(['/home']);
     });
   }
