@@ -3,7 +3,6 @@
 *:after {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -14,16 +13,15 @@ body {
 
 }
 
-
 .container form {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    position: absolute; /* Position absolutely within the viewport */
-    top: 50%; /* Move it 50% down from the top */
-    left: 50%; /* Move it 50% from the left */
-    transform: translate(-50%, -50%); /* Adjust the position to center it */
+    justify-content: center; 
+    align-items: center;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     backdrop-filter: blur(10px);

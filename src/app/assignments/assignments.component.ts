@@ -4,7 +4,6 @@ import { AssignmentsService } from '../shared/assignments.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
@@ -57,7 +56,6 @@ export class AssignmentsComponent implements OnInit {
 
   logAssignment(assignment: Assignment) {
     console.log("Assignment clicked:", assignment);
-    // Vous pouvez également effectuer d'autres actions ici si nécessaire
   }
   
 

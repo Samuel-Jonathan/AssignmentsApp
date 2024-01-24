@@ -49,16 +49,13 @@
       <tr mat-row *matRowDef="let assignment; columns: ['nom','subjectName','studentName','dateDeRendu','rendu']"
         [routerLink]="['/assignment', assignment.id]" (click)="logAssignment(assignment)">
       </tr>
-
-
     </table>
 
     <mat-paginator [disabled]="isLoading" [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]"
       showFirstLastButtons (page)="onLimitResult($event)" (page)="onPageChange($event)"></mat-paginator>
     <div *ngIf="isLoading" class="loading-spinner">
-      <mat-spinner></mat-spinner> <!-- or any other loading spinner you prefer -->
+      <mat-spinner></mat-spinner>
     </div>
 
     <button (click)="peuplerBD()">Add Assignments in database</button>
   </main>
-</body>
