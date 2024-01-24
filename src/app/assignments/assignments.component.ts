@@ -55,6 +55,12 @@ export class AssignmentsComponent implements OnInit {
     return this.filteredAssignments || this.assignments;
   }
 
+  logAssignment(assignment: Assignment) {
+    console.log("Assignment clicked:", assignment);
+    // Vous pouvez également effectuer d'autres actions ici si nécessaire
+  }
+  
+
   applyRenduFilter() {
     if (this.renduFilter) {
       const currentSort = this.getDataSource().sort;

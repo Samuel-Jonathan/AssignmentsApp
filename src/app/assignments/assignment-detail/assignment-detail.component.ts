@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -16,7 +17,7 @@ export class AssignmentDetailComponent implements OnInit {
 
   constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute,
     private router: Router, private authService: AuthService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog, private toastr: ToastrService ) { }
 
   ngOnInit(): void {
     this.getAssignments();
@@ -36,7 +37,7 @@ export class AssignmentDetailComponent implements OnInit {
 
     if (this.assignementTransmis) {
       this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(
-        message => {
+        () => {
           this.router.navigate(["/home"]);
         });
     }
@@ -45,7 +46,8 @@ export class AssignmentDetailComponent implements OnInit {
   onDelete() {
     if (this.assignementTransmis) {
       this.assignmentsService.deleteAssignment(this.assignementTransmis)
-        .subscribe((message) => {
+        .subscribe(() => {
+          this.toastr.success("Le devoir a été supprimé !")
           this.router.navigate(["/home"]);
         })
     }

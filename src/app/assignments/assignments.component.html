@@ -16,7 +16,7 @@
       <label class="filter-label">Afficher les rendus uniquement</label>
     </mat-checkbox>
   </div>
-  
+
   <table mat-table [dataSource]="getDataSource()" matSort matSortActive="nom" matSortDirection="asc">
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom du Devoir</th>
@@ -51,14 +51,19 @@
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="['nom','subjectName','studentName','dateDeRendu','rendu']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['nom','subjectName','studentName','dateDeRendu','rendu']"
-      [routerLink]="['/assignment', row.id]">
-    </tr>
+    <tr mat-row *matRowDef="let assignment; columns: ['nom','subjectName','studentName','dateDeRendu','rendu']"
+      [routerLink]="['/assignment', assignment.id]" (click)="logAssignment(assignment)">
+</tr>
+
+
   </table>
 
-  <mat-paginator [disabled]="isLoading" [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons
-    (page)="onLimitResult($event)" (page)="onPageChange($event)"></mat-paginator>
+  <mat-paginator [disabled]="isLoading" [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]"
+    showFirstLastButtons (page)="onLimitResult($event)" (page)="onPageChange($event)"></mat-paginator>
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner></mat-spinner> <!-- or any other loading spinner you prefer -->
+  </div>
 
-  <button (click)="peuplerBD()">Ajouter les devoirs à la base de données</button>
+  <button (click)="peuplerBD()">Add Assignments in database</button>
 </main>
 </body>
