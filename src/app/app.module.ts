@@ -32,6 +32,15 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AccountComponent } from './login/account/account.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './assignments/assignment-detail/confirmation-dialog/confirmation-dialog.component';
+
 
 const routes: Routes = [
   { path: '', component: AssignmentsComponent },
@@ -39,7 +48,8 @@ const routes: Routes = [
   { path: 'add', component: AddAssignmentComponent },
   { path: 'assignment/:id', component: AssignmentDetailComponent },
   { path: 'assignment/:id/edit', component: EditAssignmentComponent, canActivate: [authGuard] },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'account', component: AccountComponent }
 ];
 
 export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
@@ -47,7 +57,6 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     tokenGetter: () => {
       return sessionStorage.getItem('access_token');
     },
-    // Additional options if needed
   };
 }
 
@@ -57,8 +66,8 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     AppComponent,
     AssignmentsComponent,
     RenduDirective,
-    NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent, 
-    EditAssignmentComponent, LoginComponent
+    NonRenduDirective, AssignmentDetailComponent, AddAssignmentComponent,
+    EditAssignmentComponent, LoginComponent, AccountComponent, ConfirmationDialogComponent
   ],
   imports: [
     JwtModule.forRoot({
@@ -89,7 +98,13 @@ export function jwtOptionsFactory(jwtHelperService: JwtHelperService) {
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatStepperModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
+    CommonModule,MatDialogModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: {} },

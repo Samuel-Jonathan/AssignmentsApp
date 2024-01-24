@@ -4,70 +4,65 @@ function getAssignments(req, res) {
     const options = {
         page: parseInt(req.query.page, 10) || 1,
         limit: parseInt(req.query.limit, 10) || 10,
+        sort: { nom: 1 }
     };
 
-    var aggregateQuery = Assignment.aggregate([
-        {
-            $lookup: {
-                from: 'students',
-                localField: 'studentId',
-                foreignField: 'id',
-                as: 'studentDetails'
-            }
-        },
-        {
-            $unwind: {
-                path: '$studentDetails',
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $lookup: {
-                from: 'subjects', 
-                localField: 'subjectId', 
-                foreignField: 'id', 
-                as: 'subjectDetails' 
-            }
-        },
-        {
-            $unwind: {
-                path: '$subjectDetails',
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $project: {
-                _id: 1,
-                id: 1,
-                studentName: {
-                    $concat: [
-                        '$studentDetails.first_name', ' ', '$studentDetails.last_name'
-                    ]
-                },
-                dateDeRendu: 1,
-                nom: 1,
-                rendu: 1,
-                subject: 1,
-                subjectName: '$subjectDetails.name', 
-                subjectTeacher: '$subjectDetails.teacher', 
-                imgSubject: '$subjectDetails.imgSubject',
-                imgTeacher: '$subjectDetails.imgTeacher'
-            }
-        }
-    ]);
+    let aggregateQuery = Assignment.aggregate();
 
-    Assignment.aggregatePaginate(
-        aggregateQuery,
-        options,
-        (err, result) => {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                res.send(result);
-            }
+    if (req.query.search) {
+        aggregateQuery = aggregateQuery.match({
+            nom: { $regex: '^' + req.query.search, $options: 'i' }
+        });
+    }
+
+    aggregateQuery = aggregateQuery.lookup({
+        from: 'students',
+        localField: 'studentId',
+        foreignField: 'id',
+        as: 'studentDetails'
+    }).unwind({
+        path: '$studentDetails',
+        preserveNullAndEmptyArrays: true
+    }).lookup({
+        from: 'subjects',
+        localField: 'subjectId',
+        foreignField: 'id',
+        as: 'subjectDetails'
+    }).unwind({
+        path: '$subjectDetails',
+        preserveNullAndEmptyArrays: true
+    });
+
+    aggregateQuery = aggregateQuery.sort({
+        nom: 1
+    }).project({
+        _id: 1,
+        id: 1,
+        studentName: {
+            $concat: [
+                '$studentDetails.first_name', ' ', '$studentDetails.last_name'
+            ]
+        },
+        dateDeRendu: 1,
+        nom: 1,
+        rendu: 1,
+        subjectName: '$subjectDetails.name',
+        subjectTeacher: '$subjectDetails.teacher',
+        imgSubject: '$subjectDetails.imgSubject',
+        imgTeacher: '$subjectDetails.imgTeacher'
+    });
+
+    Assignment.aggregatePaginate(aggregateQuery, options, (err, result) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(result);
         }
-    );
+    });
 }
+
+
+
 
 
 
@@ -169,6 +164,14 @@ function deleteAssignment(req, res) {
     })
 }
 
+function getAllAssignments(req, res) {
+    Assignment.find({}, (err, assignments) => {
+        if (err) {
+            console.error(err);
+        } else {
+            res.send(assignments);
+        }
+    });
+}
 
-
-module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };
+module.exports = { getAllAssignments, getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };

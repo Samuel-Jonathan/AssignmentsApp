@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { SubjectsService } from 'src/app/shared/subjects.service';
 import { Subject } from '../subject.model';
+import { StudentsService } from 'src/app/shared/students.service';
+import { Student } from '../student.model';
 
 @Component({
   selector: 'app-add-assignment',
@@ -13,12 +15,27 @@ export class AddAssignmentComponent implements OnInit {
   nomDevoir!: string;
   dateRendu!: Date;
   subjects: Subject[] = [];
+  students: Student[] = [];
   selectedSubjectId: number | undefined;
+  selectedStudentId: number | undefined;
+  @ViewChild('stepper') stepper: any;
 
-  constructor(private assignmentsService: AssignmentsService, private subjectsService: SubjectsService) { }
+
+  constructor(private assignmentsService: AssignmentsService,
+    private subjectsService: SubjectsService,
+    private studentsService: StudentsService) { }
 
   ngOnInit(): void {
     this.getSubjects();
+    this.getStudents();
+  }
+
+  nextStep(stepper: any) {
+    stepper.next();
+  }
+
+  previousStep(stepper: any) {
+    stepper.previous();
   }
 
   getSubjects() {
@@ -28,25 +45,28 @@ export class AddAssignmentComponent implements OnInit {
       });
   }
 
+  getStudents() {
+    this.studentsService.getStudents()
+      .subscribe((studentsTab: Student[]) => {
+        this.students = studentsTab;
+      });
+  }
+
   onSubmit() {
     const newAssignment = new Assignment();
-    let assignments: Assignment[] = [];
 
     if (this.selectedSubjectId !== undefined) {
       newAssignment.subjectId = this.selectedSubjectId;
     }
 
-    this.assignmentsService.getAssignments()
-      .subscribe((assignmentsTab: Assignment[]) => {
-        assignments = assignmentsTab;
+    if (this.selectedStudentId !== undefined) {
+      newAssignment.studentId = this.selectedStudentId;
+    }
 
-        const newAssignmentId = Math.floor(Math.random() * 1000);
+    newAssignment.nom = this.nomDevoir;
+    newAssignment.dateDeRendu = this.dateRendu;
 
-        newAssignment.id = newAssignmentId;
-        newAssignment.nom = this.nomDevoir;
-        newAssignment.dateDeRendu = this.dateRendu;
 
-        this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
-      });
+    this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
   };
 }

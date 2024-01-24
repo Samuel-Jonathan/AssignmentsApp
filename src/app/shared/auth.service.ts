@@ -14,6 +14,10 @@ export class AuthService {
   constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {
   }
 
+  register(username: string, password: string, role: string): Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/register`, { username, password, role });
+  }
+
   login(username: string, password: string, role: string): Observable<any> {
     sessionStorage.setItem("username", username);
     sessionStorage.setItem("role", role);

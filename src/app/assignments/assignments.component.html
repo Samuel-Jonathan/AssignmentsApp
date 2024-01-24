@@ -9,8 +9,12 @@
       <mat-icon>search</mat-icon>
     </button>
   </div>
-  <div class="filter-container" >
-    <mat-checkbox [(ngModel)]="renduFilter" (change)="applyRenduFilter()" style="color: aliceblue;">Afficher les rendus uniquement</mat-checkbox>
+ 
+  
+   <div class="filter-container">
+    <mat-checkbox class="filter-checkbox" [(ngModel)]="renduFilter" (change)="applyRenduFilter()">
+      <label class="filter-label">Afficher les rendus uniquement</label>
+    </mat-checkbox>
   </div>
   
   <table mat-table [dataSource]="getDataSource()" matSort matSortActive="nom" matSortDirection="asc">
@@ -52,7 +56,7 @@
     </tr>
   </table>
 
-  <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons
+  <mat-paginator [disabled]="isLoading" [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons
     (page)="onLimitResult($event)" (page)="onPageChange($event)"></mat-paginator>
 
   <button (click)="peuplerBD()">Ajouter les devoirs à la base de données</button>
