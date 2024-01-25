@@ -20,7 +20,7 @@ export class AssignmentDetailComponent implements OnInit {
     private dialog: MatDialog, private toastr: ToastrService ) { }
 
   ngOnInit(): void {
-    this.getAssignments();
+    this.getAssignments();    
   }
 
   getAssignments() {
@@ -28,6 +28,8 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentsService.getAssignment(id).subscribe(assignment => {
       if (assignment) {
         this.assignementTransmis = assignment;
+        console.log(this.assignementTransmis.imgTeacher);
+        
       }
     });
   }

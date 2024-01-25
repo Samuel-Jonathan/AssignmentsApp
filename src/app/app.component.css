@@ -19,6 +19,10 @@ mat-sidenav {
 }
 
 
-button:hover{
+button:hover {
     background-color: #717171;
+}
+
+.disabled-background {
+    background-color: rgb(186, 186, 186);
 }

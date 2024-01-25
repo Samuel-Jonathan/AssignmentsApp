@@ -15,7 +15,7 @@
       <button mat-button (click)="opened=!opened">
         <mat-icon>menu</mat-icon>
       </button>
-      <button style="color:white" mat-button (click)="peuplerBD()">Add Assignments in database</button>
+      <button style="color:white" mat-button [disabled]="isButtonDisable" [class.disabled-background]="isButtonDisable"(click)="peuplerBD()">Add Assignments in database</button>
       <span class="login"></span>
       <a routerLink="/home">
         <button mat-button>

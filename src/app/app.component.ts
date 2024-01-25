@@ -8,8 +8,8 @@ import { AssignmentsService } from './shared/assignments.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Application de gestion des devoirs à rendre (Assignments)';
   opened = false;
+  isButtonDisable = false;
 
   constructor(public authService: AuthService, private assignmentService: AssignmentsService) { }
 
@@ -18,10 +18,16 @@ export class AppComponent {
   }
 
   peuplerBD() {
+    this.isButtonDisable = true;
     this.assignmentService.peuplerBDavecForkJoin()
       .subscribe(() => {
         console.log("LA BD A ETE PEUPLEE, TOUS LES ASSIGNMENTS AJOUTES");
         window.location.reload();
       })
   }
+
+  isPeuplerBD(): boolean {
+    return !this.isButtonDisable;
+  }
 }
+
