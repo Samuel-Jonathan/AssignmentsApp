@@ -7,6 +7,9 @@ import { StudentsService } from 'src/app/shared/students.service';
 import { Student } from '../student.model';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationDialogComponent } from '../assignment-detail/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-add-assignment',
@@ -31,7 +34,9 @@ export class AddAssignmentComponent implements OnInit {
     private subjectsService: SubjectsService,
     private studentsService: StudentsService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -79,5 +84,25 @@ export class AddAssignmentComponent implements OnInit {
       });
       this.router.navigate(['/home']);
     });
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Voulez-vous vraiment ajouter ce devoir ?' }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result === true) {
+        this.onSubmit();
+      }
+    });
+  }
+
+  isAdmin() {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+    return false;
   }
 }

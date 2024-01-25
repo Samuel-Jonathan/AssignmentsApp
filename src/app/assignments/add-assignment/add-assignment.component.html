@@ -36,7 +36,7 @@
         <mat-form-field>
           <textarea matInput placeholder="Commentaire" [(ngModel)]="comment" name="comment"></textarea>
         </mat-form-field>
-        <button style="color: white" (click)="onSubmit()">Ajouter un devoir</button>
+        <button style="color: white" (click)="openConfirmationDialog()">Ajouter un devoir</button>
         <button style="color: white" mat-button (click)="previousStep(stepper)">Retour</button>
       </mat-step>
     </mat-horizontal-stepper>

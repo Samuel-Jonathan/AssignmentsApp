@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
               return throwError(loginError);
             })
           );
+          
           user.subscribe(
             (loginResponse) => {
               if (loginResponse.token) {
