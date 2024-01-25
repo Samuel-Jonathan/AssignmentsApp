@@ -39,7 +39,7 @@
       <mat-form-field>
         <textarea matInput placeholder="Commentaire" [(ngModel)]="comment" name="comment"></textarea>
       </mat-form-field>
-      <button mat-raised-button color="primary" (click)="onSaveAssignment(); formStep2.reset();">Sauvegarder</button>
+      <button mat-raised-button color="primary" (click)="openConfirmationDialog(); formStep2.reset();">Sauvegarder</button>
       <button mat-button color="warn" (click)="previousStep(stepper)">Retour</button>
     </form>
   </mat-step>

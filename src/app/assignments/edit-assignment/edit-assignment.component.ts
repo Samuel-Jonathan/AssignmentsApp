@@ -6,6 +6,9 @@ import { Student } from '../student.model';
 import { Subject } from '../subject.model';
 import { SubjectsService } from 'src/app/shared/subjects.service';
 import { StudentsService } from 'src/app/shared/students.service';
+import { ConfirmationDialogComponent } from '../assignment-detail/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-edit-assignment',
@@ -30,7 +33,9 @@ export class EditAssignmentComponent implements OnInit {
 
   constructor(private assignmentsService: AssignmentsService,
     private subjectsService: SubjectsService, private studentsService: StudentsService,
-    private route: ActivatedRoute, private router: Router) { }
+    private route: ActivatedRoute, private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAssignment();
@@ -88,6 +93,19 @@ export class EditAssignmentComponent implements OnInit {
     
     this.assignmentsService.updateAssignment(this.assignment).subscribe(() => {
       this.router.navigate(['/home']);
+    });
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Voulez-vous vraiment modifier ce devoir ?' }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result === true) {
+        this.onSaveAssignment();
+      }
     });
   }
 }
