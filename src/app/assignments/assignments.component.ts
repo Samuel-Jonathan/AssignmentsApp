@@ -60,7 +60,7 @@ export class AssignmentsComponent implements OnInit {
   searchAssignments() {
     // this.assignmentService.isLoading = true;
     const search = this.searchQuery.trim();
-    
+
     if (search) {
       if (this.pageBeforeSearch === null) {
         this.pageBeforeSearch = this.page;
@@ -69,16 +69,20 @@ export class AssignmentsComponent implements OnInit {
       }
     } else {
       if (this.pageBeforeSearch !== null) {
-        this.page = this.pageBeforeSearch 
-        this.paginator.pageIndex = this.page;        
+        this.page = this.pageBeforeSearch;
+        this.pageBeforeSearch = null;
+        this.paginator.pageIndex = this.page;
       }
     }
+
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
           this.assignmentService.isLoading = false;
           const newDataSource = new MatTableDataSource<Assignment>(data.docs);
           this.assignments.data = newDataSource.data;
+          console.log(this.assignments.data);
+
           this.totalDocs = data.totalDocs;
           this.totalPages = Math.ceil(this.totalDocs / this.limit);
           this.assignments.sort = this.sort;
@@ -89,17 +93,20 @@ export class AssignmentsComponent implements OnInit {
 
 
   onLimitResult(event: PageEvent) {
-    this.limit = event.pageSize;
-    this.searchAssignments();
+    if (event.pageSize !== this.limit) {
+      this.limit = event.pageSize;
+      this.searchAssignments();
+    }
   }
 
   onPageChange(event: PageEvent) {
     const newPageIndex = event.pageIndex;
     this.page = newPageIndex + 1;
     this.searchAssignments();
+
   }
 
-  getIsLoading(): boolean{
+  getIsLoading(): boolean {
     return !this.assignmentService.isLoading;
   }
 }
