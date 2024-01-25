@@ -6,15 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@angular/material/prebuilt-themes/indigo-pink.css">
 </head>
+
 <body>
   <mat-toolbar>
     <mat-toolbar-row>
       <button mat-button (click)="opened=!opened">
         <mat-icon>menu</mat-icon>
       </button>
-      <button style="color:white" mat-button [disabled]="isButtonDisable" [class.disabled-background]="isButtonDisable"(click)="peuplerBD()">Add Assignments in database
+      <button style="color:white" mat-button [disabled]="isButtonDisable" [class.disabled-background]="isButtonDisable"
+        (click)="peuplerBD()">Add Assignments in database
         <mat-icon>autorenew</mat-icon>
       </button>
+      <div *ngIf="!getIsLoading()" class="loading-spinner">
+        <mat-spinner style="width: 40px; margin-left: 10px;"></mat-spinner>
+      </div>
+      <div *ngIf="isButtonDisable" class="loading-spinner">
+        <mat-spinner style="width: 40px; margin-left: 10px;"></mat-spinner>
+      </div>
       <span class="login"></span>
       <a routerLink="/home">
         <button style="color: white" mat-button> Page d'accueil
@@ -33,7 +41,7 @@
       </a>
     </mat-toolbar-row>
   </mat-toolbar>
- 
+
   <mat-sidenav-container>
     <mat-sidenav [(opened)]="opened" mode="side">
       <mat-nav-list>

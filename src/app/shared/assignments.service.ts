@@ -13,6 +13,7 @@ export class AssignmentsService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   url = "http://localhost:8010/api/assignments";
+  isLoading: boolean = false;
 
   getToken() {
     return sessionStorage.getItem('access_token');

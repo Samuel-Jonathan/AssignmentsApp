@@ -29,5 +29,9 @@ export class AppComponent {
   isPeuplerBD(): boolean {
     return !this.isButtonDisable;
   }
+
+  getIsLoading(): boolean{
+    return !this.assignmentService.isLoading;
+  }
 }
 

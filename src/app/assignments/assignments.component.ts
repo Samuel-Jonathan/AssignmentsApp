@@ -27,7 +27,6 @@ export class AssignmentsComponent implements OnInit {
   private previousSearch: string = '';
   private pageBeforeSearch: number | null = null;
 
-  isLoading: boolean = false;
   filteredAssignments: MatTableDataSource<Assignment> | null = null;
   renduFilter: boolean = false;
 
@@ -67,7 +66,7 @@ export class AssignmentsComponent implements OnInit {
   }
 
   getAssignments() {
-    this.isLoading = true;
+    this.assignmentService.isLoading = true;
     this.assignmentService.getAssignmentPagine(this.page, this.limit, this.searchQuery)
       .subscribe(
         data => {
@@ -76,14 +75,14 @@ export class AssignmentsComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalDocs / this.limit);
           this.assignments.sort = this.sort;
           this.sort.disableClear = true;
-          this.isLoading = false;
+          this.assignmentService.isLoading = false;
         }
       );
   }
   
 
   searchAssignments() {
-    this.isLoading = true;
+    this.assignmentService.isLoading = true;
     const search = this.searchQuery.trim();
 
     if (search) {
@@ -103,7 +102,7 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
-          this.isLoading = false;
+          this.assignmentService.isLoading = false;
           const newDataSource = new MatTableDataSource<Assignment>(data.docs);
           this.assignments.data = newDataSource.data;
           this.totalDocs = data.totalDocs;
@@ -133,5 +132,9 @@ export class AssignmentsComponent implements OnInit {
     this.pageBeforeSearch = null;
     this.page = newPageIndex + 1;
     this.searchAssignments();
+  }
+
+  getIsLoading(): boolean{
+    return !this.assignmentService.isLoading;
   }
 }

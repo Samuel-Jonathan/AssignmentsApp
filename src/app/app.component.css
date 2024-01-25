@@ -26,3 +26,7 @@ button:hover {
 .disabled-background {
     background-color: rgb(186, 186, 186);
 }
+
+::ng-deep .loading-spinner mat-spinner circle {
+    stroke: white;
+}
