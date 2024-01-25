@@ -47,7 +47,9 @@ export class AssignmentDetailComponent implements OnInit {
     if (this.assignementTransmis) {
       this.assignmentsService.deleteAssignment(this.assignementTransmis)
         .subscribe(() => {
-          this.toastr.success("Le devoir a été supprimé !")
+          this.toastr.success("Le devoir a été supprimé !", '', {
+            positionClass: 'toast-bottom-right' 
+          });
           this.router.navigate(["/home"]);
         })
     }
