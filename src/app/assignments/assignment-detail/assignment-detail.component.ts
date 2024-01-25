@@ -28,7 +28,7 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentsService.getAssignment(id).subscribe(assignment => {
       if (assignment) {
         this.assignementTransmis = assignment;
-        console.log(this.assignementTransmis.imgTeacher);
+        console.log(this.assignementTransmis.nom);
         
       }
     });

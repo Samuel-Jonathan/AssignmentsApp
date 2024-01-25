@@ -9,7 +9,6 @@
 
 mat-card {
     width: 400px;
-    height: 400px;
     border-radius: 10px;
     padding: 10px 5px;
     color: black;
@@ -51,3 +50,4 @@ button {
 button:hover {
     background-color: rgb(123, 123, 123);
 }
+
