@@ -10,14 +10,15 @@ mat-icon {
     flex: 1;
 }
 
+mat-sidenav-container {
+    height: calc(205vh - 115vh);
+}
+
 mat-sidenav {
     background: rgb(243, 243, 241);
 }
 
-mat-list-item:hover {
-    background-color: #c7c7c7;
-}
 
-button:hover {
+button:hover{
     background-color: #717171;
 }
