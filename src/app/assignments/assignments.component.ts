@@ -17,14 +17,10 @@ export class AssignmentsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-
-  titre: String = "Mon application Angular sur les assignments";
-  textcolor="white";
   ajoutActive = true;
   formVisible = false;
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
-  private previousSearch: string = '';
   private pageBeforeSearch: number | null = null;
 
   filteredAssignments: MatTableDataSource<Assignment> | null = null;
@@ -49,11 +45,6 @@ export class AssignmentsComponent implements OnInit {
     return this.filteredAssignments || this.assignments;
   }
 
-  logAssignment(assignment: Assignment) {
-    console.log("Assignment clicked:", assignment);
-  }
-  
-
   applyRenduFilter() {
     if (this.renduFilter) {
       const currentSort = this.getDataSource().sort;
@@ -65,40 +56,23 @@ export class AssignmentsComponent implements OnInit {
     }
   }
 
-  getAssignments() {
-    this.assignmentService.isLoading = true;
-    this.assignmentService.getAssignmentPagine(this.page, this.limit, this.searchQuery)
-      .subscribe(
-        data => {
-          this.assignments.data = data.docs;
-          this.totalDocs = data.totalDocs;
-          this.totalPages = Math.ceil(this.totalDocs / this.limit);
-          this.assignments.sort = this.sort;
-          this.sort.disableClear = true;
-          this.assignmentService.isLoading = false;
-        }
-      );
-  }
-  
 
   searchAssignments() {
-    this.assignmentService.isLoading = true;
+    // this.assignmentService.isLoading = true;
     const search = this.searchQuery.trim();
-
+    
     if (search) {
       if (this.pageBeforeSearch === null) {
-        this.pageBeforeSearch = this.paginator.pageIndex;
+        this.pageBeforeSearch = this.page;
+        this.page = 1;
+        this.paginator.pageIndex = 0;
       }
-      this.page = 1;
-      this.paginator.pageIndex = 0;
     } else {
       if (this.pageBeforeSearch !== null) {
-        this.page = this.pageBeforeSearch + 1; 
-        this.paginator.pageIndex = this.pageBeforeSearch; 
-        this.pageBeforeSearch = null;
+        this.page = this.pageBeforeSearch 
+        this.paginator.pageIndex = this.page;        
       }
     }
-    this.previousSearch = search;
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
@@ -109,14 +83,6 @@ export class AssignmentsComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalDocs / this.limit);
           this.assignments.sort = this.sort;
           this.sort.disableClear = true;
-          if (search) {
-            this.paginator.pageIndex = 0;
-          } else if (this.pageBeforeSearch !== null) {
-            this.paginator.pageIndex = this.page - 1;
-          }
-          if (this.page === 1) {
-            this.paginator.pageIndex = 0;
-          }
         }
       );
   }
@@ -124,12 +90,11 @@ export class AssignmentsComponent implements OnInit {
 
   onLimitResult(event: PageEvent) {
     this.limit = event.pageSize;
-    this.getAssignments();
+    this.searchAssignments();
   }
 
   onPageChange(event: PageEvent) {
     const newPageIndex = event.pageIndex;
-    this.pageBeforeSearch = null;
     this.page = newPageIndex + 1;
     this.searchAssignments();
   }
