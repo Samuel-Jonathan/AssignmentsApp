@@ -71,7 +71,7 @@ export class EditAssignmentComponent implements OnInit {
       this.nomAssignment = this.assignment?.nom;
       this.dateDeRendu = this.assignment?.dateDeRendu;
       this.selectedSubject = this.assignment.subjectId;
-      this.selectedStudent != this.assignment.studentId;
+      this.selectedStudent = this.assignment.studentId;
       this.selectedNote = this.assignment?.note;
       this.comment = this.assignment?.comment;
     });

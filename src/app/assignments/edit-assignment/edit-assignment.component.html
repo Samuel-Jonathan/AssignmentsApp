@@ -17,7 +17,7 @@
   <mat-step>
     <ng-template matStepLabel>Étape 2</ng-template>
     <form #formStep2="ngForm">
-      <mat-form-field>
+      <mat-form-field>              
         <mat-label for="subject">Matière</mat-label>
         <mat-select [(ngModel)]="selectedSubject" name="subject" id="subject">
           <mat-option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</mat-option>
