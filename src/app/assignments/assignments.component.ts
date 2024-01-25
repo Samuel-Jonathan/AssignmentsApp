@@ -17,10 +17,14 @@ export class AssignmentsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+
+  titre: String = "Mon application Angular sur les assignments";
+  textcolor="white";
   ajoutActive = true;
   formVisible = false;
   assignments!: MatTableDataSource<Assignment>;
   searchQuery: string = '';
+  private previousSearch: string = '';
   private pageBeforeSearch: number | null = null;
 
   isLoading: boolean = false;
@@ -46,6 +50,11 @@ export class AssignmentsComponent implements OnInit {
     return this.filteredAssignments || this.assignments;
   }
 
+  logAssignment(assignment: Assignment) {
+    console.log("Assignment clicked:", assignment);
+  }
+  
+
   applyRenduFilter() {
     if (this.renduFilter) {
       const currentSort = this.getDataSource().sort;
@@ -58,6 +67,7 @@ export class AssignmentsComponent implements OnInit {
   }
 
   getAssignments() {
+    this.isLoading = true;
     this.assignmentService.getAssignmentPagine(this.page, this.limit, this.searchQuery)
       .subscribe(
         data => {
@@ -69,8 +79,8 @@ export class AssignmentsComponent implements OnInit {
           this.isLoading = false;
         }
       );
-
   }
+  
 
   searchAssignments() {
     this.isLoading = true;
@@ -84,11 +94,12 @@ export class AssignmentsComponent implements OnInit {
       this.paginator.pageIndex = 0;
     } else {
       if (this.pageBeforeSearch !== null) {
-        this.page = this.pageBeforeSearch + 1;
-        this.paginator.pageIndex = this.pageBeforeSearch;
+        this.page = this.pageBeforeSearch + 1; 
+        this.paginator.pageIndex = this.pageBeforeSearch; 
         this.pageBeforeSearch = null;
       }
     }
+    this.previousSearch = search;
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
