@@ -11,7 +11,7 @@
         </mat-form-field>
         <mat-datepicker-toggle matSuffix [for]="picker" style="color: #217B8A;"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <button mat-stroked-button (click)="nextStep(stepper)">Suivant</button>
+        <button style="color: white" mat-stroked-button (click)="nextStep(stepper)">Suivant</button>
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Étape 2</ng-template>
@@ -36,8 +36,8 @@
         <mat-form-field>
           <textarea matInput placeholder="Commentaire" [(ngModel)]="comment" name="comment"></textarea>
         </mat-form-field>
-        <button mat-stroked-button (click)="onSubmit()">Ajouter un devoir</button>
-        <button mat-button (click)="previousStep(stepper)">Retour</button>
+        <button style="color: white" (click)="onSubmit()">Ajouter un devoir</button>
+        <button style="color: white" mat-button (click)="previousStep(stepper)">Retour</button>
       </mat-step>
     </mat-horizontal-stepper>
   </form>

@@ -1,6 +1,3 @@
-<!-- <h1>
-  <nav>{{title}}</nav>
-</h1> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,26 +12,28 @@
       <button mat-button (click)="opened=!opened">
         <mat-icon>menu</mat-icon>
       </button>
-      <button style="color:white" mat-button [disabled]="isButtonDisable" [class.disabled-background]="isButtonDisable"(click)="peuplerBD()">Add Assignments in database</button>
+      <button style="color:white" mat-button [disabled]="isButtonDisable" [class.disabled-background]="isButtonDisable"(click)="peuplerBD()">Add Assignments in database
+        <mat-icon>autorenew</mat-icon>
+      </button>
       <span class="login"></span>
       <a routerLink="/home">
-        <button mat-button>
+        <button style="color: white" mat-button> Page d'accueil
           <mat-icon>home</mat-icon>
         </button>
       </a>
       <a routerLink="/login" *ngIf="!authService.isAdmin()">
-        <button mat-button>
+        <button style="color: white" mat-button> Connexion
           <mat-icon>account_circle</mat-icon>
         </button>
       </a>
       <a routerLink="/home" *ngIf="authService.isAdmin()" (click)="logout()">
-        <button mat-button>
+        <button style="color:white" mat-button>Déconnexion
           <mat-icon>reply</mat-icon>
         </button>
       </a>
     </mat-toolbar-row>
   </mat-toolbar>
-
+ 
   <mat-sidenav-container>
     <mat-sidenav [(opened)]="opened" mode="side">
       <mat-nav-list>
