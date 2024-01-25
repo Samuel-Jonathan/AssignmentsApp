@@ -47,7 +47,7 @@
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="['nom','subjectName','studentName','dateDeRendu','rendu']"></tr>
       <tr class="assignments" mat-row *matRowDef="let assignment; columns: ['nom','subjectName','studentName','dateDeRendu','rendu']"
-        [routerLink]="['/assignment', assignment.id]" (click)="logAssignment(assignment)">
+        [routerLink]="['/assignment', assignment.id]">
       </tr>
     </table>
 
