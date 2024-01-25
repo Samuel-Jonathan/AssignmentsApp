@@ -4,53 +4,20 @@ mat-toolbar {
 
 mat-icon {
     color: aliceblue;
-    size: 2rem;
-    /* je n'arrive pas à changer la taille?? */
 }
 
 .login {
     flex: 1;
 }
 
-mat-sidenav-container {
-    height: calc(205vh - 115vh);
-}
-
 mat-sidenav {
-    width: 400px;
-    background-color: #217B8A;
-    padding-left: 50px;
-    padding-top: 10px;
-}
-
-mat-list-item {
-    margin: 20px;
-    color: aliceblue;
+    background: rgb(243, 243, 241);
 }
 
 mat-list-item:hover {
-    background-color: aliceblue;
-    color: #217B8A;
-    width: 100;
-
+    background-color: #c7c7c7;
 }
 
-mat-sidenav-content {
-    padding-left: 50px;
-    padding-top: 10px;
-
-}
-
-mat-slide-toggle {
-    color: white;
-    padding: 15px;
-}
-
-mat-nav-list {
-    color: aliceblue;
-}
-
-button:hover{
+button:hover {
     background-color: #717171;
 }
-

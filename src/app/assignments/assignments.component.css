@@ -3,7 +3,6 @@
 *:after {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -71,6 +70,10 @@ td {
 
 th {
     background-color: #f2f2f2;
+}
+
+.assignments:hover{
+    background-color: #eeeeee;
 }
 
 mat-paginator {
