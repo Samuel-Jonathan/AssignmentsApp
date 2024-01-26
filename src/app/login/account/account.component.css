@@ -17,7 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    
     position: absolute;
     top: 50%;
     left: 50%;
@@ -46,9 +46,10 @@ label{
 
 .container input[type="text"],
 .container input[type="password"] {
-    background-color: #333;
+    margin-left: auto;
+    background-color: white;
     color: white;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 5px;
     padding: 4px;
     margin-bottom: 10px;

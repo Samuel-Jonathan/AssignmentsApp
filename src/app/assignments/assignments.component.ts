@@ -58,7 +58,7 @@ export class AssignmentsComponent implements OnInit {
 
 
   searchAssignments() {
-    // this.assignmentService.isLoading = true;
+    this.assignmentService.isLoading = true;
     const search = this.searchQuery.trim();
 
     if (search) {
@@ -87,6 +87,7 @@ export class AssignmentsComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalDocs / this.limit);
           this.assignments.sort = this.sort;
           this.sort.disableClear = true;
+          
         }
       );
   }
