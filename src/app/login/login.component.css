@@ -1,8 +1,9 @@
 *,
 *:before,
-*:after {
+:after {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -11,7 +12,7 @@ body {
 }
 
 form {
-    height: 400px;
+    height: 520px;
     width: 400px;
     background-color: rgba(255, 255, 255, 0.13);
     position: absolute;
@@ -25,7 +26,7 @@ form {
     padding: 50px 35px;
 }
 
-form * {
+form {
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
@@ -42,9 +43,9 @@ form h3 {
 
 label {
     display: block;
-    font-size: 20px;
+    margin-top: 30px;
+    font-size: 16px;
     font-weight: 500;
-    padding: 10px;
 }
 
 input {
@@ -52,7 +53,9 @@ input {
     height: 50px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.07);
+    border: none;
     border-radius: 3px;
+    padding: 0 10px;
     margin-top: 8px;
     font-size: 14px;
     font-weight: 300;
@@ -63,10 +66,11 @@ input {
 }
 
 button {
+    border: none;
     margin-top: 50px;
     width: 100%;
     background-color: #217B8A;
-    color: #080710;
+    color: aliceblue;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
@@ -75,19 +79,5 @@ button {
 }
 
 button:hover {
-    background-color: rgb(48, 48, 133);
-}
-
-nav{
-    padding-top: 25px;
-}
-
-.container input[type="text"],
-.container input[type="password"] {
-    background-color: white;
-    color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 4px;
-    font-size: 16px;
+    background-color: rgb(64, 64, 224);
 }
