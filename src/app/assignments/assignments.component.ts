@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { MatSort } from '@angular/material/sort';
@@ -31,7 +31,8 @@ export class AssignmentsComponent implements OnInit {
   totalDocs!: number;
   totalPages!: number;
 
-  constructor(private assignmentService: AssignmentsService) { }
+  constructor(private assignmentService: AssignmentsService,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.assignments = new MatTableDataSource<Assignment>([]);
@@ -58,7 +59,7 @@ export class AssignmentsComponent implements OnInit {
 
 
   searchAssignments() {
-    this.assignmentService.isLoading = true;
+    // this.assignmentService.isLoading = true;
     const search = this.searchQuery.trim();
 
     if (search) {
@@ -78,7 +79,8 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
-          this.assignmentService.isLoading = false;
+          // this.assignmentService.isLoading = false;
+          this.cdr.detectChanges(); 
           const newDataSource = new MatTableDataSource<Assignment>(data.docs);
           this.assignments.data = newDataSource.data;
           console.log(this.assignments.data);

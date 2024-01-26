@@ -11,7 +11,8 @@ export class AppComponent {
   opened = false;
   isButtonDisable = false;
 
-  constructor(public authService: AuthService, private assignmentService: AssignmentsService) { }
+  constructor(public authService: AuthService,
+    private assignmentService: AssignmentsService) { }
 
   logout() {
     this.authService.logout();
@@ -30,8 +31,12 @@ export class AppComponent {
     return !this.isButtonDisable;
   }
 
-  getIsLoading(): boolean{
+  getIsLoading(): boolean {
     return !this.assignmentService.isLoading;
+  }
+
+  getUsername(): string | null{
+    return sessionStorage.getItem("username");
   }
 }
 
