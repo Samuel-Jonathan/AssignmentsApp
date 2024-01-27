@@ -59,7 +59,6 @@ export class AssignmentsComponent implements OnInit {
 
 
   searchAssignments() {
-    // this.assignmentService.isLoading = true;
     const search = this.searchQuery.trim();
 
     if (search) {
