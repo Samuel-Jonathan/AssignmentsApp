@@ -31,8 +31,7 @@ export class AssignmentsComponent implements OnInit {
   totalDocs!: number;
   totalPages!: number;
 
-  constructor(private assignmentService: AssignmentsService,
-    private cdr: ChangeDetectorRef) { }
+  constructor(private assignmentService: AssignmentsService) { }
 
   ngOnInit(): void {
     this.assignments = new MatTableDataSource<Assignment>([]);
@@ -71,15 +70,13 @@ export class AssignmentsComponent implements OnInit {
       if (this.pageBeforeSearch !== null) {
         this.page = this.pageBeforeSearch;
         this.pageBeforeSearch = null;
-        this.paginator.pageIndex = this.page;
+        this.paginator.pageIndex = this.page-1;
       }
     }
 
     this.assignmentService.getAssignmentPagine(this.page, this.limit, search)
       .subscribe(
         data => {
-          // this.assignmentService.isLoading = false;
-          this.cdr.detectChanges(); 
           const newDataSource = new MatTableDataSource<Assignment>(data.docs);
           this.assignments.data = newDataSource.data;
           console.log(this.assignments.data);
@@ -103,12 +100,8 @@ export class AssignmentsComponent implements OnInit {
 
   onPageChange(event: PageEvent) {
     const newPageIndex = event.pageIndex;
+    
     this.page = newPageIndex + 1;
     this.searchAssignments();
-
-  }
-
-  getIsLoading(): boolean {
-    return !this.assignmentService.isLoading;
   }
 }
