@@ -58,6 +58,7 @@ label{
     margin-top: 8px;
     font-size: 14px;
     font-weight: 300;
+    color: black;
 }
 
 #containerCheckbox{
@@ -82,4 +83,8 @@ label{
 .container button:hover {
     background-color: rgb(64, 64, 224);
     transform: scale(1.05); 
+}
+
+.container input:focus {
+    background-color: white;
 }
