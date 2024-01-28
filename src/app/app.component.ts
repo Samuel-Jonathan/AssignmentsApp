@@ -22,7 +22,7 @@ export class AppComponent {
 
   peuplerBD() {
     this.isButtonDisable = true;
-    this.assignmentService.peuplerBDavecForkJoin()
+    this.assignmentService.peuplerBDavecForkJoin(1000)
       .subscribe(() => {
         window.location.reload();
       })
