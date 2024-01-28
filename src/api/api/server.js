@@ -134,7 +134,6 @@ app.route(prefix + '/students')
   .get(student.getStudents);
 
 
-
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
 console.log('Serveur démarré sur http://localhost:' + port);
