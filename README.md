@@ -9,6 +9,12 @@ https://assignmentapp-frontend.onrender.com
 
 (Il faut attendre quelques secondes pour que les assignments s'affichent)
 
+username : user
+password : userpass
+
+username : admin
+password : adminpass
+
 ## Demo
 
 Lien de la video
@@ -53,6 +59,7 @@ Pour se connecter, il faut entrer le nom d'utilisateur et le mot de passe. Une f
 Si l'utilisateur ne possède pas de compte, il peut cliquer sur le lien "Créer un compte". En remplissant les champs du formulaire d'inscription, comprenant le nom d'utilisateur, le mot de passe (minimum 8 caractères), et le rôle (Utilisateur, qui peut ajouter/modifier des devoirs ; et Administrateur, qui peut en plus supprimer des devoirs), l'utilisateur peut ensuite s'inscrire. Lorsqu'on crée un compte, le mot de passe est hashé pour crypter le mot de passe en base de données. L'algorithme de cryptage utilisé est "bcrypt".
 
 **Peupler la base de données**
+
 Ajoute 1000 devoirs
 
 
