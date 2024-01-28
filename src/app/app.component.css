@@ -62,7 +62,7 @@ mat-toolbar-row {
 }
 
 mat-icon.color {
-    color: black;
+    color: #3B3B39;
 }
 .mat-nav-list a {
   display: flex;
@@ -70,9 +70,21 @@ mat-icon.color {
   text-decoration: none; 
 }
 
-.mat-list-item {
-  width: 100%; 
-  display: flex;
-  align-items: center; 
+mat-list-item {
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+
 }
 
+mat-list-item:hover {
+    color: aliceblue;
+    transform: scale(1.1); 
+    background-color: #b8b8b8; 
+    size: 20px;
+  }
+
+.color {
+    margin-right: 8px;
+    vertical-align: middle; 
+  }
