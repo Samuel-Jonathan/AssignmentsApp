@@ -26,12 +26,12 @@
           <mat-icon>home</mat-icon>
         </button>
       </a>
-      <a routerLink="/login" *ngIf="!authService.isAdmin()">
+      <a routerLink="/login" *ngIf="!authService.isAuthenticated()">
         <button style="color: white" mat-button> Connexion
           <mat-icon>account_circle</mat-icon>
         </button>
       </a>
-      <a routerLink="/home" *ngIf="authService.isAdmin()" (click)="logout()">
+      <a routerLink="/home" *ngIf="authService.isAuthenticated()" (click)="logout()">
         <button style="color:white" mat-button>Déconnexion
           <mat-icon>logout</mat-icon>
         </button>
